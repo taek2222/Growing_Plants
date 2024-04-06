@@ -6,4 +6,34 @@ notificationIcon.addEventListener('click', () => {
   alertBox.style.display = alertBox.style.display === 'none' ? 'block' : 'none';
 });
 
+//엔드포인트?
+const url = "http://115.86.165.101:9090/plant/all";
+// fetch 요청
+fetch(url)
+  .then(response => {
+    // 요청이 성공적으로 완료되었는지 확인
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    // JSON 형태로 응답 파싱
+    return response.json();
+  })
+  .then(data => {
+    // 데이터에서 plantID와 plantName 추출
+    data.forEach(plant => {
+      console.log(`Plant ID: ${plant.plantID}, Plant Name: ${plant.plantName}`);
+    });
+    const plantTitles = document.querySelectorAll('.plant h2');
+    if(data.length >= 2) {
+      plantTitles[0].textContent = data[0].plantName; // 첫 번째 식물의 이름 설정
+      plantTitles[1].textContent = data[1].plantName; // 두 번째 식물의 이름 설정
+    }
+
+  })
+  .catch(error => {
+    // 오류 처리
+    console.error('There was a problem with the fetch operation:', error);
+  });
+
+  
 //갤러리 기능
