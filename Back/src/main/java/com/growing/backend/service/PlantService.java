@@ -24,4 +24,10 @@ public class PlantService {
                     return dto;
                 }).collect(Collectors.toList());
     }
+
+    public void updatePlant(PlantDTO dto) {
+        Plant plant = plantRepository.findById(dto.getPlantId()).orElseThrow();
+        plant.setPlantName(dto.getPlantName());
+        plantRepository.save(plant);
+    }
 }
