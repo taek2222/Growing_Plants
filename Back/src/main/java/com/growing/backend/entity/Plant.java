@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Plant {
     @Id
-    @Column(name = "plant_id")
+    @Column(name = "PLANT_ID")
     private int plantId;
 
-    @Column(name = "plant_name")
+    @Column(name = "PLANT_NAME")
     private String plantName;
 }
