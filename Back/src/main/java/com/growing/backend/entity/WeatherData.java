@@ -16,11 +16,11 @@ public class WeatherData {
     @Column(name = "DATA_NUMBER")
     private int dataNumber;
 
-    @Column(name = "BASE_Date")
-    private String baseDate;
+    @Column(name = "FCST_Date")
+    private String fcstDate;
 
-    @Column(name = "BASE_TIME")
-    private String baseTime;
+    @Column(name = "FCST_TIME")
+    private String fcstTime;
 
     @Column(name = "TEMPERATURE")
     private int temperature;
@@ -34,9 +34,9 @@ public class WeatherData {
     @Column(name = "RAIN")
     private int rain;
 
-    public WeatherData(String baseDate, String baseTime, int temperature, int humidity, int weatherCode, int rain) {
-        this.baseDate = baseDate;
-        this.baseTime = baseTime;
+    public WeatherData(String fcstDate, String fcstTime, int temperature, int humidity, int weatherCode, int rain) {
+        this.fcstDate = fcstDate;
+        this.fcstTime = fcstTime;
         this.temperature = temperature;
         this.humidity = humidity;
         this.weatherCode = weatherCode;

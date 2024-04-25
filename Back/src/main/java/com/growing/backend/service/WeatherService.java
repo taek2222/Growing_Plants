@@ -1,7 +1,6 @@
 package com.growing.backend.service;
 
 import com.google.gson.*;
-import com.growing.backend.dto.WeatherDataDTO;
 import com.growing.backend.entity.WeatherData;
 import com.growing.backend.repository.WeatherDataRepository;
 import lombok.RequiredArgsConstructor;
@@ -58,9 +57,7 @@ public class WeatherService {
         in.close();
         conn.disconnect();
 
-        WeatherData weatherData = parseWeatherData(content.toString());
-        System.out.println(weatherData);
-        weatherDataRepository.save(weatherData);
+        parseWeatherData(content.toString());
 
         return content.toString();
     }
@@ -93,18 +90,22 @@ public class WeatherService {
         }
     }
 
-    private WeatherData parseWeatherData(String jsonResponse) {
+    // 파싱 데이터 DB 삽입 코드
+    private void parseWeatherData(String jsonResponse) {
         JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
         JsonObject response = jsonObject.getAsJsonObject("response");
         JsonObject body = response.getAsJsonObject("body");
         JsonArray items = body.getAsJsonObject("items").getAsJsonArray("item");
 
-        String baseDate = null;
-        String baseTime = null;
-        int temperature = 0;
-        int humidity = 0;
-        int weatherCode = 0;
-        int rain = 0;
+        String fcstDate;
+        String fcstTime;
+        int weatherCode; // 날씨 반환 코드
+        int temperature, humidity, skyWeather, rainWeather, rain;
+
+        temperature = humidity = skyWeather = rainWeather = rain = -1;
+
+        LocalTime localTime = LocalTime.now(ZoneId.of("Asia/Seoul"));
+        String hour = localTime.plusHours(1).format(DateTimeFormatter.ofPattern("HH00"));
 
         for (JsonElement itemElement : items) {
             JsonObject item = itemElement.getAsJsonObject();
@@ -112,12 +113,18 @@ public class WeatherService {
             JsonPrimitive valuePrimitive = item.getAsJsonPrimitive("fcstValue");
 
             if (valuePrimitive == null) continue;
+            if (!item.getAsJsonPrimitive("fcstTime").getAsString().equals(hour)) continue;
 
             switch (category) {
                 case "TMP": // 온도
                     temperature = Integer.parseInt(valuePrimitive.getAsString());
                     break;
-//                case "SKY": // 날씨 상태
+                case "SKY": // 날씨 상태
+                    skyWeather = Integer.parseInt(valuePrimitive.getAsString());
+                    break;
+                case "PTY": // 비, 눈 상태
+                    rainWeather = Integer.parseInt(valuePrimitive.getAsString());
+                    break;
                 case "POP": // 강수 확률
                     rain = Integer.parseInt(valuePrimitive.getAsString());
                     break;
@@ -126,13 +133,46 @@ public class WeatherService {
                     break;
             }
 
-            if (baseDate == null || baseTime == null) {
-                baseDate = item.getAsJsonPrimitive("baseDate").getAsString();
-                baseTime = item.getAsJsonPrimitive("baseTime").getAsString();
+            if (temperature != -1 && skyWeather != -1 && rainWeather != -1 && rain != -1 && humidity != -1) {
+                fcstDate = item.getAsJsonPrimitive("fcstDate").getAsString(); // 측정 날짜
+                fcstTime = item.getAsJsonPrimitive("fcstTime").getAsString(); // 측정 시간
+
+                // 강수코드 변환
+                weatherCode = getWeatherCode(skyWeather, rainWeather);
+
+                // 측정 데이터 DB 삽입
+                WeatherData weatherData = new WeatherData(fcstDate, fcstTime, temperature, humidity, weatherCode, rain);
+                weatherDataRepository.save(weatherData);
+
+                // 측정 초기화
+                temperature = humidity = skyWeather = rainWeather = rain = -1; // 다시 초기화
             }
         }
+    }
 
-        System.out.println(baseDate + " " + baseTime + " " + temperature + " " + humidity + " " + weatherCode + " " + rain);
-        return new WeatherData(baseDate, baseTime, temperature, humidity, weatherCode, rain);
+    // 강수 코드
+    private int getWeatherCode(int skyWeather, int rainWeather) {
+        int weatherCode = -1;
+
+        // 강수형태 코드 기반 분할
+        if(rainWeather == 0) {
+            // 강수형태 NO - 날씨 탐색
+            weatherCode = switch (skyWeather) {
+                case 1 -> 1;
+                case 3 -> 2;
+                case 4 -> 3;
+                default -> weatherCode;
+            };
+        } else {
+            // 강수형태 ON - 강수 탐색
+            weatherCode = switch (rainWeather) {
+                case 1 -> 4;
+                case 2 -> 5;
+                case 3 -> 6;
+                case 4 -> 7;
+                default -> weatherCode;
+            };
+        }
+        return weatherCode;
     }
 }
