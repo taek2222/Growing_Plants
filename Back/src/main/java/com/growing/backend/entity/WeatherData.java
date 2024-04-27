@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Entity
 @Table(name = "WEATHER_DATA")
 @Data
@@ -17,10 +20,10 @@ public class WeatherData {
     private int dataNumber;
 
     @Column(name = "FCST_Date")
-    private String fcstDate;
+    private LocalDate fcstDate;
 
     @Column(name = "FCST_TIME")
-    private String fcstTime;
+    private LocalTime fcstTime;
 
     @Column(name = "TEMPERATURE")
     private int temperature;
@@ -34,7 +37,7 @@ public class WeatherData {
     @Column(name = "RAIN")
     private int rain;
 
-    public WeatherData(String fcstDate, String fcstTime, int temperature, int humidity, int weatherCode, int rain) {
+    public WeatherData(LocalDate fcstDate, LocalTime fcstTime, int temperature, int humidity, int weatherCode, int rain) {
         this.fcstDate = fcstDate;
         this.fcstTime = fcstTime;
         this.temperature = temperature;

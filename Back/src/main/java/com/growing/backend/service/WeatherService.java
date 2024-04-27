@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -89,7 +90,8 @@ public class WeatherService {
             baseDate = now.minusDays(1).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         }
     }
-
+// 3일전 데이터 삭제 하는 방식, LocalDate 변경
+    // 계속 누적으로 데이터 쌓이게
     // 파싱 데이터 DB 삽입 코드
     private void parseWeatherData(String jsonResponse) {
         JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
@@ -97,8 +99,8 @@ public class WeatherService {
         JsonObject body = response.getAsJsonObject("body");
         JsonArray items = body.getAsJsonObject("items").getAsJsonArray("item");
 
-        String fcstDate;
-        String fcstTime;
+        LocalDate fcstDate;
+        LocalTime fcstTime;
         int weatherCode; // 날씨 반환 코드
         int temperature, humidity, skyWeather, rainWeather, rain;
 
@@ -106,6 +108,9 @@ public class WeatherService {
 
         LocalTime localTime = LocalTime.now(ZoneId.of("Asia/Seoul"));
         String hour = localTime.plusHours(1).format(DateTimeFormatter.ofPattern("HH00"));
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
 
         for (JsonElement itemElement : items) {
             JsonObject item = itemElement.getAsJsonObject();
@@ -134,8 +139,8 @@ public class WeatherService {
             }
 
             if (temperature != -1 && skyWeather != -1 && rainWeather != -1 && rain != -1 && humidity != -1) {
-                fcstDate = item.getAsJsonPrimitive("fcstDate").getAsString(); // 측정 날짜
-                fcstTime = item.getAsJsonPrimitive("fcstTime").getAsString(); // 측정 시간
+                fcstDate = LocalDate.parse(item.getAsJsonPrimitive("fcstDate").getAsString(), dateFormatter); // 측정 날짜
+                fcstTime = LocalTime.parse(item.getAsJsonPrimitive("fcstTime").getAsString(), timeFormatter); // 측정 시간
 
                 // 강수코드 변환
                 weatherCode = getWeatherCode(skyWeather, rainWeather);
