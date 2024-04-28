@@ -17,18 +17,11 @@ import java.util.Map;
 @RequestMapping("/plant")
 public class PlantController {
     private final PlantService plantService;
-    private final WeatherService weatherService;
 
     // 식물 전체 요청
     @GetMapping("/all")
     public ResponseEntity<List<Map<String, Object>>> getPlantAll() {
         return ResponseEntity.ok().body(plantService.getPlantAllSearch());
-    }
-
-//     기상청 데이터 요청
-    @GetMapping("/weather")
-    public String getWeather() throws IOException {
-        return weatherService.getWeatherData();
     }
 
     // 식물 이름 변경 요청
