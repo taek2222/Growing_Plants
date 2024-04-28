@@ -1,9 +1,12 @@
 package com.growing.backend.service;
 
 import com.google.gson.*;
+import com.growing.backend.entity.DateTemperature;
 import com.growing.backend.entity.WeatherData;
+import com.growing.backend.repository.DateTemperatureRepository;
 import com.growing.backend.repository.WeatherDataRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -22,11 +25,14 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 public class WeatherService {
     private final WeatherDataRepository weatherDataRepository;
+    private final DateTemperatureRepository dateTemperatureRepository;
 
     static String baseDate;
     static String baseTime;
 
-    public String getWeatherData() throws IOException {
+    @Scheduled(cron = "0 0 * * * ?")
+//    @Scheduled(cron = "*/10 * * * * *")
+    public void getWeatherData() throws IOException {
         // baseDate, baseTime 시간, 날짜 설정
         setBaseTimeBaseDate();
 
@@ -41,26 +47,22 @@ public class WeatherService {
                 .queryParam("ny", "121")
                 .toUriString();
 
+        // 요청 Url 생성
         URL url = new URL(urlStr);
-        System.out.println(url);
+
+        // Url 기반 요청
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/json");
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String inputLine;
-        StringBuffer content = new StringBuffer();
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
-        }
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String content = br.readLine();
 
-        // close connections
-        in.close();
+        br.close();
         conn.disconnect();
 
-        parseWeatherData(content.toString());
+        parseWeatherData(content);
 
-        return content.toString();
     }
 
     // API 요청 시간 및 날짜 설정
@@ -90,8 +92,7 @@ public class WeatherService {
             baseDate = now.minusDays(1).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         }
     }
-// 3일전 데이터 삭제 하는 방식, LocalDate 변경
-    // 계속 누적으로 데이터 쌓이게
+
     // 파싱 데이터 DB 삽입 코드
     private void parseWeatherData(String jsonResponse) {
         JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
@@ -99,24 +100,32 @@ public class WeatherService {
         JsonObject body = response.getAsJsonObject("body");
         JsonArray items = body.getAsJsonObject("items").getAsJsonArray("item");
 
+        // 측정 날짜, 시간 변수
         LocalDate fcstDate;
         LocalTime fcstTime;
-        int weatherCode; // 날씨 반환 코드
+
+        // 날씨 코드 및 기상청의 다양한 값 변수
+        int weatherCode;
         int temperature, humidity, skyWeather, rainWeather, rain;
 
+        // 변수 초기화
         temperature = humidity = skyWeather = rainWeather = rain = -1;
 
+        // 현재 시간 측정 및 "HH00 - 12:00" 으로 포멧
         LocalTime localTime = LocalTime.now(ZoneId.of("Asia/Seoul"));
-        String hour = localTime.plusHours(1).format(DateTimeFormatter.ofPattern("HH00"));
+        String hour = localTime.format(DateTimeFormatter.ofPattern("HH00"));
 
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
+        // 최고, 최저 온도 기록
+        // 시간 별로 되어 있는데, 1일 주기로 변경 방법 찾아야함.
+        getDataTemperature(items);
 
+        // 파싱 데이터 탐색
         for (JsonElement itemElement : items) {
             JsonObject item = itemElement.getAsJsonObject();
             String category = item.getAsJsonPrimitive("category").getAsString();
             JsonPrimitive valuePrimitive = item.getAsJsonPrimitive("fcstValue");
 
+            // 값이 NULL 및 시간 측정이 현재랑 맞지 않으면 continue
             if (valuePrimitive == null) continue;
             if (!item.getAsJsonPrimitive("fcstTime").getAsString().equals(hour)) continue;
 
@@ -138,19 +147,34 @@ public class WeatherService {
                     break;
             }
 
+            // 모든 데이터 수집 완료 시 데이터 베이스 전달
             if (temperature != -1 && skyWeather != -1 && rainWeather != -1 && rain != -1 && humidity != -1) {
+                // Date, Time 날짜 데이터 변환
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmm");
+
+                // 변환 기반으로 데이터 등록
                 fcstDate = LocalDate.parse(item.getAsJsonPrimitive("fcstDate").getAsString(), dateFormatter); // 측정 날짜
                 fcstTime = LocalTime.parse(item.getAsJsonPrimitive("fcstTime").getAsString(), timeFormatter); // 측정 시간
 
                 // 강수코드 변환
                 weatherCode = getWeatherCode(skyWeather, rainWeather);
 
+                WeatherData weatherData = weatherDataRepository.findByFcstDateAndFcstTime(fcstDate, fcstTime)
+                        .orElse(new WeatherData());
+
+                weatherData.setFcstDate(fcstDate);
+                weatherData.setFcstTime(fcstTime);
+                weatherData.setTemperature(temperature);
+                weatherData.setHumidity(humidity);
+                weatherData.setWeatherCode(weatherCode);
+                weatherData.setRain(rain);
+
                 // 측정 데이터 DB 삽입
-                WeatherData weatherData = new WeatherData(fcstDate, fcstTime, temperature, humidity, weatherCode, rain);
                 weatherDataRepository.save(weatherData);
 
                 // 측정 초기화
-                temperature = humidity = skyWeather = rainWeather = rain = -1; // 다시 초기화
+                temperature = humidity = skyWeather = rainWeather = rain = -1;
             }
         }
     }
@@ -179,5 +203,47 @@ public class WeatherService {
             };
         }
         return weatherCode;
+    }
+
+    // 최고, 최저 온도
+    private void getDataTemperature(JsonArray items) {
+
+        // 최고 최저 온도 변수 선언
+        double tmx = -1;
+        double tmn = -1;
+
+        // 파싱 데이터 반복문
+        for (JsonElement itemElement : items) {
+            JsonObject item = itemElement.getAsJsonObject();
+            String category = item.getAsJsonPrimitive("category").getAsString();
+            JsonPrimitive valuePrimitive = item.getAsJsonPrimitive("fcstValue");
+
+            switch (category) {
+                // 최고 온도
+                case "TMX":
+                    tmx = Double.parseDouble(valuePrimitive.getAsString());
+                    break;
+                // 최저 온도
+                case "TMN":
+                    tmn = Double.parseDouble(valuePrimitive.getAsString());
+                    break;
+            }
+
+            if(tmx != -1 & tmn != -1) {
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+                LocalDate fcstDate = LocalDate.parse(item.getAsJsonPrimitive("fcstDate").getAsString(), dateFormatter); // 측정 날짜
+
+                DateTemperature dateTemperature = dateTemperatureRepository.findByFcstDate(fcstDate)
+                        .orElse(new DateTemperature());
+
+                dateTemperature.setFcstDate(fcstDate);
+                dateTemperature.setTmx(tmx);
+                dateTemperature.setTmn(tmn);
+
+                dateTemperatureRepository.save(dateTemperature);
+                tmx = tmn = -1;
+            }
+        }
     }
 }
