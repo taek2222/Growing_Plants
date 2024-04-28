@@ -16,8 +16,8 @@ import java.time.LocalTime;
 public class WeatherData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "DATA_NUMBER")
-    private int dataNumber;
+    @Column(name = "DATA_ID")
+    private int dataId;
 
     @Column(name = "FCST_Date")
     private LocalDate fcstDate;
@@ -36,13 +36,4 @@ public class WeatherData {
 
     @Column(name = "RAIN")
     private int rain;
-
-    public WeatherData(LocalDate fcstDate, LocalTime fcstTime, int temperature, int humidity, int weatherCode, int rain) {
-        this.fcstDate = fcstDate;
-        this.fcstTime = fcstTime;
-        this.temperature = temperature;
-        this.humidity = humidity;
-        this.weatherCode = weatherCode;
-        this.rain = rain;
-    }
 }
