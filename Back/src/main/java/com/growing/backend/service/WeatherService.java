@@ -88,7 +88,7 @@ public class WeatherService {
             baseDate = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         }
         else {
-            baseTime = "23:00";
+            baseTime = "2300";
             baseDate = now.minusDays(1).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         }
     }

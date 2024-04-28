@@ -32,12 +32,12 @@ public class WeatherController {
         List<WeatherDataDTO> weatherDataList = new ArrayList<>();
 
         // 오늘, 내일, 내일 모레 날짜
-        LocalDate today = LocalDate.now(ZoneId.of("Asia/seoul"));
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
         LocalDate tomorrow = today.plusDays(1);
         LocalDate dayAfterTomorrow = today.plusDays(2);
 
         // 시간 데이터
-        LocalTime hour = LocalTime.now(ZoneId.of("Asia/seoul")).truncatedTo(ChronoUnit.HOURS);
+        LocalTime hour = LocalTime.now(ZoneId.of("Asia/Seoul")).truncatedTo(ChronoUnit.HOURS);
 
         // 배열로 저장
         List<LocalDate> dates = Arrays.asList(today, tomorrow, dayAfterTomorrow);
