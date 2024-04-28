@@ -3,7 +3,7 @@ package com.growing.backend.service;
 import com.google.gson.*;
 import com.growing.backend.entity.WeatherTemperature;
 import com.growing.backend.entity.WeatherData;
-import com.growing.backend.repository.DateTemperatureRepository;
+import com.growing.backend.repository.WeatherTemperatureRepository;
 import com.growing.backend.repository.WeatherDataRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 public class WeatherService {
     private final WeatherDataRepository weatherDataRepository;
-    private final DateTemperatureRepository dateTemperatureRepository;
+    private final WeatherTemperatureRepository dateTemperatureRepository;
 
     static String baseDate;
     static String baseTime;

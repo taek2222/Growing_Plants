@@ -1,14 +1,11 @@
 package com.growing.backend.controller;
 
 import com.growing.backend.dto.PlantDTO;
-import com.growing.backend.dto.WeatherDataDTO;
 import com.growing.backend.service.PlantService;
-import com.growing.backend.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
