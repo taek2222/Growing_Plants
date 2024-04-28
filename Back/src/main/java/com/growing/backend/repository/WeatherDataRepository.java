@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface WeatherDataRepository extends JpaRepository<WeatherData, Integer> {
     Optional<WeatherData> findByFcstDateAndFcstTime(LocalDate fcstDate, LocalTime fcstTime);
+
+    Optional<WeatherData> findByFcstDate(LocalDate date);
 }

@@ -1,7 +1,7 @@
 package com.growing.backend.service;
 
 import com.google.gson.*;
-import com.growing.backend.entity.DateTemperature;
+import com.growing.backend.entity.WeatherTemperature;
 import com.growing.backend.entity.WeatherData;
 import com.growing.backend.repository.DateTemperatureRepository;
 import com.growing.backend.repository.WeatherDataRepository;
@@ -30,8 +30,8 @@ public class WeatherService {
     static String baseDate;
     static String baseTime;
 
-    @Scheduled(cron = "0 0 * * * ?")
-//    @Scheduled(cron = "*/10 * * * * *")
+//    @Scheduled(cron = "0 0 * * * ?")
+    @Scheduled(cron = "0 */1 * * * *")
     public void getWeatherData() throws IOException {
         // baseDate, baseTime 시간, 날짜 설정
         setBaseTimeBaseDate();
@@ -234,14 +234,14 @@ public class WeatherService {
 
                 LocalDate fcstDate = LocalDate.parse(item.getAsJsonPrimitive("fcstDate").getAsString(), dateFormatter); // 측정 날짜
 
-                DateTemperature dateTemperature = dateTemperatureRepository.findByFcstDate(fcstDate)
-                        .orElse(new DateTemperature());
+                WeatherTemperature weatherTemperature = dateTemperatureRepository.findByFcstDate(fcstDate)
+                        .orElse(new WeatherTemperature());
 
-                dateTemperature.setFcstDate(fcstDate);
-                dateTemperature.setTmx(tmx);
-                dateTemperature.setTmn(tmn);
+                weatherTemperature.setFcstDate(fcstDate);
+                weatherTemperature.setTmx(tmx);
+                weatherTemperature.setTmn(tmn);
 
-                dateTemperatureRepository.save(dateTemperature);
+                dateTemperatureRepository.save(weatherTemperature);
                 tmx = tmn = -1;
             }
         }
