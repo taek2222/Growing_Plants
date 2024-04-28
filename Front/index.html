@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GWNU 틔운</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+            <h1>GWNU 틔운</h1>
+            <div class="icons">
+                <div class="notification-icon">
+                    <img src="noti.png" alt="알림 아이콘">
+                </div>
+                <div class="weather-section">
+                    <div class="weather-icon">
+                        <img id="weatherIcon" src="icon/비눈.png" alt="Weather Icon">
+                    </div>
+                    <p class="rain-probability">강수확률: <span id="rain">--%</span></p>
+                </div>
+            </div>
+            <div class="location">
+                <h2>강원도 원주시</h2>
+                <h3>흥업면</h3>
+            </div>
+            <div class="temperature">
+                <p>최고 기온: <span id="max-temp">--°</span></p>
+                <p>최저 기온: <span id="min-temp">--°</span></p>
+                <p>습 &emsp;&emsp;도: <span id="humidity">--%</span></p>
+            </div>
+        </header>
+        <div class="plant-monitor">
+            <div class="plant">
+                <h2>식물1</h2>
+                <img src="testimage.jpg" alt="식물 1">
+                <p>21일 차</p>
+            </div>
+            <div class="plant">
+                <h2>식물2</h2>
+                <img src="testimage2.jpg" alt="식물 2">
+                <p>21일 차</p>
+            </div>
+        </div>
+        <section class="atmosphere-data">
+            <div class="card atmosphere-temperature">
+              <span class="status-label">대기 온도</span>
+              <div class="temperature-display">
+                <img src="대기온도.png" alt="온도계" class="thermometer">
+                <span class="temperature-value">24°C</span>
+              </div>
+            </div>     
+            <div class="card atmosphere-humidity">
+              <span class="status-label">대기 습도</span>
+              <div class="status-bar">
+                <div class="status-fill" style="width: 80%;"></div>
+              </div>
+              <span class="status-label percentage">80%</span>
+            </div>
+          </section>          
+        <div id="alert-box">
+            <p>새로운 알림이 도착했습니다.</p>
+        </div>
+    </div>
+    <script src="test3.js"></script>
+</body>
+
+</html>
