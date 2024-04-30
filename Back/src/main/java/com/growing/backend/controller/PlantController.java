@@ -23,7 +23,7 @@ public class PlantController {
 
     // 식물 이름 변경 요청
     @PatchMapping("/name-patch")
-    public String testPost(@RequestBody PlantDTO plantDTO) {
+    public String namePatch(@RequestBody PlantDTO plantDTO) {
         plantService.updatePlant(plantDTO);
         return plantDTO.getPlantName();
     }
