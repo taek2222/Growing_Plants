@@ -4,8 +4,6 @@ import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class WeatherDataDTO {
     private int month; // 월
     private int day; // 일
