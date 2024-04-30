@@ -7,8 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WeatherDataDTO {
-    private int month;
-    private int day;
+    private int month; // 월
+    private int day; // 일
     private int time; // 시간
     private double maxTemp;  // 최고 기온
     private double minTemp;  // 최저 기온

@@ -24,18 +24,22 @@ public class PlantService {
     private final PlantRepository plantRepository;
     private final PlantInfoRepository plantInfoRepository;
 
+    // 식물 데이터 전달 (Id, 이름, 사진, 성장 일자)
     public List<Map<String, Object>> getPlantAllSearch() {
         List<Plant> plants = plantRepository.findAll();
 
         return plants.stream().map(plant -> {
+            // Map 선언 후 식물 정보 찾기
             Map<String, Object> responseData = new HashMap<>();
             PlantInfo plantInfo = plantInfoRepository.findById(plant.getPlantId()).orElseThrow();
 
+            // 식물 기본 정보 (Id, 이름)
             PlantDTO plantDTO = new PlantDTO();
             plantDTO.setPlantId(plant.getPlantId());
             plantDTO.setPlantName(plant.getPlantName());
             responseData.put("plant", plantDTO);
 
+            // 식물 상세 정보 (사진, 성장 일자)
             PlantInfoDTO plantInfoDTO = new PlantInfoDTO();
             plantInfoDTO.setImage(plantInfo.getImage());
             plantInfoDTO.setDate(plantDate(plantInfo.getDate()));
@@ -45,7 +49,7 @@ public class PlantService {
         }).collect(Collectors.toList());
     }
 
-    // 식물 일 차 계산
+    // 식물 성장 일자 계산
     public int plantDate(LocalDate startDate) {
         LocalDate now = LocalDate.now(ZoneId.of("Asia/Seoul"));
 

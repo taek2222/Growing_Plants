@@ -8,7 +8,6 @@ import java.time.LocalTime;
 import java.util.Optional;
 
 public interface WeatherDataRepository extends JpaRepository<WeatherData, Integer> {
+    // 날짜 시간 기반 검색
     Optional<WeatherData> findByFcstDateAndFcstTime(LocalDate fcstDate, LocalTime fcstTime);
-
-    Optional<WeatherData> findByFcstDate(LocalDate date);
 }
