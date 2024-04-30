@@ -4,6 +4,7 @@ import com.google.gson.*;
 import com.growing.backend.entity.WeatherData;
 import com.growing.backend.repository.WeatherDataRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -25,6 +26,10 @@ public class WeatherDataService {
     private final WeatherDataRepository weatherDataRepository;
     private final WeatherTemperatureService weatherTemperatureService;
 
+    // 서비스 키
+    @Value("${serviceKey}")
+    private String serviceKey;
+
     static String baseDate;
     static String baseTime;
 
@@ -36,7 +41,7 @@ public class WeatherDataService {
 
         // 기상청 요청
         String urlStr = UriComponentsBuilder.fromHttpUrl("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?")
-                .queryParam("serviceKey", "EViTSUUmhHodg8yW4mcVr9xshH6g5oJDd0be1zYo0R7T2M7TouEiusZdV3Wnj689jQaTLJ7qX9Cn6gZmxUyXxw==")
+                .queryParam("serviceKey", serviceKey)
                 .queryParam("pageNo", "1")
                 .queryParam("numOfRows", "1000")
                 .queryParam("dataType", "JSON")
