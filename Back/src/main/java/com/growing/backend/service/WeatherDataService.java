@@ -30,8 +30,8 @@ public class WeatherDataService {
     static String baseDate;
     static String baseTime;
 
-//    @Scheduled(cron = "0 0 * * * ?")
-    @Scheduled(cron = "0 */1 * * * *")
+//    @Scheduled(cron = "0 0 */1 * * ?") // 크론식 1시간 마다
+    @Scheduled(cron = "0 */1 * * * *") // 크론식 1분 마다
     public void getWeatherData() throws IOException {
         // baseDate, baseTime 시간, 날짜 설정
         setBaseTimeBaseDate();
@@ -56,6 +56,7 @@ public class WeatherDataService {
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/json");
 
+        // JSON 데이터 버퍼 저장
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String content = br.readLine();
 
@@ -116,8 +117,8 @@ public class WeatherDataService {
         String hour = localTime.format(DateTimeFormatter.ofPattern("HH00"));
 
         // 최고, 최저 온도 기록
-        // 시간 별로 되어 있는데, 1일 주기로 변경 방법 찾아야함.
-        weatherTemperatureService.getDataTemperature(items);
+        if (hour.equals("0200"))
+            weatherTemperatureService.getDataTemperature(items);
 
         // 파싱 데이터 탐색
         for (JsonElement itemElement : items) {
