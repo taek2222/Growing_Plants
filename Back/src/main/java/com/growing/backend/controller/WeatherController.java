@@ -15,8 +15,15 @@ import java.util.List;
 public class WeatherController {
     private final WeatherService weatherService;
 
-    @GetMapping("/all")
-    public List<WeatherDataDTO> weather() {
+    // 날짜 정보 요청
+    @GetMapping
+    public WeatherDataDTO weather() {
         return weatherService.getWeatherData();
+    }
+
+    // 오늘, 내일, 모레 날씨 정보 요청
+    @GetMapping("/all")
+    public List<WeatherDataDTO> weatherAll() {
+        return weatherService.getWeatherDataList();
     }
 }
