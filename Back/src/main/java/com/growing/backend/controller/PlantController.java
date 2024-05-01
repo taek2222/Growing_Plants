@@ -1,6 +1,8 @@
 package com.growing.backend.controller;
 
 import com.growing.backend.dto.PlantDTO;
+import com.growing.backend.dto.PlantInfoDTO;
+import com.growing.backend.dto.PlantInfoRequestDTO;
 import com.growing.backend.service.PlantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +25,9 @@ public class PlantController {
 
     // 식물 이름 변경 요청
     @PatchMapping("/name-patch")
-    public String namePatch(@RequestBody PlantDTO plantDTO) {
-        plantService.updatePlant(plantDTO);
-        return plantDTO.getPlantName();
+    public String namePatch(@RequestBody PlantInfoRequestDTO plantInfoRequestDTO) {
+        System.out.println(plantInfoRequestDTO.getName());
+        System.out.println(plantInfoRequestDTO.getData());
+        return "Good";
     }
 }
