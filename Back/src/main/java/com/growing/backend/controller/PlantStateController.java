@@ -12,8 +12,13 @@ import org.springframework.web.bind.annotation.*;
 public class PlantStateController {
     private final PlantStateService plantStateService;
 
+    @GetMapping("/state")
+    public PlantRequestDTO getPlantState() {
+        return plantStateService.getPlantState();
+    }
+
     @PostMapping("/state")
-    public PlantState getPlantState(@RequestBody PlantRequestDTO plantRequestDTO) {
+    public PlantState postPlantState(@RequestBody PlantRequestDTO plantRequestDTO) {
         return plantStateService.plantStateSave(plantRequestDTO);
     }
 }
