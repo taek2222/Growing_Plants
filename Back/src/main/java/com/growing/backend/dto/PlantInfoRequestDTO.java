@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class PlantInfoRequestDTO {
+    private int id; // 식물 아이디
     private String name; // 식물 이름
-    private LocalDate Data; // 식물 성장 일자
+    private LocalDate date; // 식물 성장 일자
 }

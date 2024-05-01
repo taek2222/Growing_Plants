@@ -26,8 +26,9 @@ public class PlantController {
     // 식물 이름 변경 요청
     @PatchMapping("/name-patch")
     public String namePatch(@RequestBody PlantInfoRequestDTO plantInfoRequestDTO) {
+        System.out.println(plantInfoRequestDTO.getId());
         System.out.println(plantInfoRequestDTO.getName());
-        System.out.println(plantInfoRequestDTO.getData());
+        System.out.println(plantInfoRequestDTO.getDate());
         return "Good";
     }
 }
