@@ -2,6 +2,8 @@ package com.growing.backend.service;
 
 import com.growing.backend.dto.PlantDTO;
 import com.growing.backend.dto.PlantInfoDTO;
+import com.growing.backend.dto.PlantInfoRequestDTO;
+import com.growing.backend.dto.PlantRequestDTO;
 import com.growing.backend.entity.Plant;
 import com.growing.backend.entity.PlantInfo;
 import com.growing.backend.repository.PlantInfoRepository;
@@ -59,9 +61,13 @@ public class PlantService {
     }
 
     // 식물 이름 변경
-    public void updatePlant(PlantDTO dto) {
-        Plant plant = plantRepository.findById(dto.getPlantId()).orElseThrow();
-        plant.setPlantName(dto.getPlantName());
+    public void updatePlant(PlantInfoRequestDTO dto) {
+        Plant plant = plantRepository.findById(dto.getId()).orElseThrow();
+        plant.setPlantName(dto.getName());
         plantRepository.save(plant);
+
+        PlantInfo plantInfo = plantInfoRepository.findById(dto.getId()).orElseThrow();
+        plantInfo.setDate(dto.getDate());
+        plantInfoRepository.save(plantInfo);
     }
 }
