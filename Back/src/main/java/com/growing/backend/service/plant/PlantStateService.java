@@ -41,6 +41,17 @@ public class PlantStateService {
     public List<String> addPlantState(PlantStateDTO DTO) {
         List<String> response = new ArrayList<>();
 
+        // NULL 및 쓰레기 값 체크
+        if (DTO == null ||
+                DTO.getLightIntensity() < 0 || DTO.getLightIntensity() > 100 ||
+                DTO.getAirTemperature() < 0 || DTO.getAirTemperature() > 100 ||
+                DTO.getAirHumidity() < 0 || DTO.getAirHumidity() > 100 ||
+                DTO.getSoilMoisture1() < 0 || DTO.getSoilMoisture1() > 100 ||
+                DTO.getSoilMoisture2() < 0 || DTO.getSoilMoisture2() > 100) {
+            response.add("1");
+            return response;
+        }
+
         // 식물등 상태 코드, 토양 습도 배열로 저장
         boolean[] lightStatus = new boolean[] {DTO.isLightStatus2(), DTO.isLightStatus2()};
         double[] soilStatus = new double[] {DTO.getSoilMoisture1(), DTO.getSoilMoisture2()};
@@ -57,7 +68,6 @@ public class PlantStateService {
 
         return response;
     }
-
 
     // 데이터 저장 메소드
     public void savePlantState(PlantStateDTO DTO) {
