@@ -1,6 +1,6 @@
 package com.growing.backend.controller;
 
-import com.growing.backend.dto.WeatherDataDTO;
+import com.growing.backend.dto.response.WeatherDataDTO;
 import com.growing.backend.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

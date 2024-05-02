@@ -1,6 +1,6 @@
 package com.growing.backend.service;
 
-import com.growing.backend.dto.WeatherDataDTO;
+import com.growing.backend.dto.response.WeatherDataDTO;
 import com.growing.backend.entity.WeatherData;
 import com.growing.backend.entity.WeatherTemperature;
 import com.growing.backend.repository.WeatherDataRepository;

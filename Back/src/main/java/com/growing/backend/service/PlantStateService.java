@@ -1,11 +1,10 @@
 package com.growing.backend.service;
 
-import com.growing.backend.dto.PlantRequestDTO;
+import com.growing.backend.dto.request.PlantStateDTO;
 import com.growing.backend.entity.PlantState;
 import com.growing.backend.repository.PlantStateRepository;
+import com.growing.backend.service.plant.state.LightService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,25 +18,25 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class PlantStateService {
     private final PlantStateRepository plantStateRepository;
+    private final LightService lightService;
 
-    // 조도, 토양 습도 기준치
-    static double stLIT = 30.0;
+    // 토양 습도 기준치
     static double stSMT = 25.0;
 
-//    // 수집 데이터 처리 메소드
-//    public int plantStateDataTest(PlantRequestDTO DTO) {
+    // 수집 데이터 처리 메소드
+//    public int plantStateDataTest(PlantStateDTO DTO) {
 //        Map<String, Object> response = new HashMap<>();
 //
-//    }
+//        // 상태 코드 배열로 저장
+//        boolean[] lightStatus = new boolean[] {DTO.isLightStatus2(), DTO.isLightStatus2()};
 //
-//    // 조도 센서 값
-//    public int lightIntensityCheck(Map<String, Object> response, double light) {
-//        if(light > stLIT)
-//
+//        // 조도 센서 값 상태 변환 및 시간 카운팅
+//        lightService.lightIntensityCheck(response, DTO.getLightIntensity(), lightStatus);
 //    }
 
+
     // 데이터 저장 메소드
-    public PlantState plantStateSave(PlantRequestDTO DTO) {
+    public PlantState plantStateSave(PlantStateDTO DTO) {
 
         PlantState plantState = new PlantState();
 
@@ -55,14 +54,5 @@ public class PlantStateService {
         return plantState;
     }
 
-    public PlantRequestDTO getPlantState() {
-        Pageable topOne = PageRequest.of(0, 1);
-        PlantState latestPlantState = plantStateRepository.findAllByOrderByDateDescTimeDesc(topOne).get(0);
 
-        PlantRequestDTO DTO = new PlantRequestDTO();
-        DTO.setAirTemperature(latestPlantState.getAirTemperature());
-        DTO.setAirHumidity(latestPlantState.getAirHumidity());
-
-        return DTO;
-    }
 }
