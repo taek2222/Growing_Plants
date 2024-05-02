@@ -1,24 +1,37 @@
-package com.growing.backend.service;
+package com.growing.backend.service.plant;
 
 import com.growing.backend.dto.request.PlantStateDTO;
 import com.growing.backend.entity.PlantState;
 import com.growing.backend.repository.PlantStateRepository;
-import com.growing.backend.service.plant.state.LightService;
+import com.growing.backend.service.plant.state.PlantStateLightService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class PlantStateService {
     private final PlantStateRepository plantStateRepository;
-    private final LightService lightService;
+    private final PlantStateLightService plantStateLightService;
+
+    // 식물 센서 측정 값 전달 (대기 온도, 대기 습도)
+    public PlantStateDTO getPlantState() {
+
+        Pageable topOne = PageRequest.of(0, 1);
+        PlantState latestPlantState = plantStateRepository.findAllByOrderByDateDescTimeDesc(topOne).get(0);
+
+        PlantStateDTO DTO = new PlantStateDTO();
+        DTO.setAirTemperature(latestPlantState.getAirTemperature());
+        DTO.setAirHumidity(latestPlantState.getAirHumidity());
+
+        return DTO;
+    }
 
     // 토양 습도 기준치
     static double stSMT = 25.0;
@@ -36,7 +49,7 @@ public class PlantStateService {
 
 
     // 데이터 저장 메소드
-    public PlantState plantStateSave(PlantStateDTO DTO) {
+    public PlantState savePlantState(PlantStateDTO DTO) {
 
         PlantState plantState = new PlantState();
 

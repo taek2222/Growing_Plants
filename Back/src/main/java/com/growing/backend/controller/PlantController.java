@@ -1,7 +1,7 @@
 package com.growing.backend.controller;
 import com.growing.backend.dto.response.PlantDTO;
 import com.growing.backend.dto.request.PlantInfoDTO;
-import com.growing.backend.service.PlantService;
+import com.growing.backend.service.plant.PlantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class PlantController {
     // 식물 전체 요청
     @GetMapping("/all")
     public ResponseEntity<List<PlantDTO>> getPlantAll() {
-        return ResponseEntity.ok().body(plantService.getPlantAllSearch());
+        return ResponseEntity.ok().body(plantService.getPlant());
     }
 
     // 식물 정보 변경 요청

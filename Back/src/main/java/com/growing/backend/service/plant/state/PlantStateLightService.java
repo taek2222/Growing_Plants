@@ -9,11 +9,11 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class LightService {
+public class PlantStateLightService {
     private final PlantInfoRepository plantInfoRepository;
 
     // 조도 센서 값 계산
-    public Map<String, Object> lightIntensityCheck(Map<String, Object> response, double light, boolean[] lightStatus) {
+    public Map<String, Object> checkLight(Map<String, Object> response, double light, boolean[] lightStatus) {
         for(int i = 1; i < 3; i++) {
             // 식물 ID 조회 및 탐색
             PlantInfo plantInfo = plantInfoRepository.findById(i).orElseThrow(() -> new RuntimeException("Error Light Method : "));

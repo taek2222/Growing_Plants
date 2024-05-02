@@ -1,4 +1,4 @@
-package com.growing.backend.service;
+package com.growing.backend.service.plant;
 
 import com.growing.backend.dto.response.PlantDTO;
 import com.growing.backend.dto.request.PlantInfoDTO;
@@ -8,6 +8,7 @@ import com.growing.backend.repository.PlantInfoRepository;
 import com.growing.backend.repository.PlantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -21,9 +22,10 @@ import java.util.stream.Collectors;
 public class PlantService {
     private final PlantRepository plantRepository;
     private final PlantInfoRepository plantInfoRepository;
+    private final PlantInfoService plantInfoService;
 
     // 식물 데이터 전달 (ID, 이름, 사진, 성장 일자)
-    public List<PlantDTO> getPlantAllSearch() {
+    public List<PlantDTO> getPlant() {
         List<Plant> plants = plantRepository.findAll();
 
         return plants.stream().map(plant -> {
@@ -35,14 +37,14 @@ public class PlantService {
             plantDTO.setPlantId(plant.getPlantId());
             plantDTO.setPlantName(plant.getPlantName());
             plantDTO.setImage(plantInfo.getImage());
-            plantDTO.setDate(plantDate(plantInfo.getDate()));
+            plantDTO.setDate(getPlantDate(plantInfo.getDate()));
 
             return plantDTO;
         }).collect(Collectors.toList());
     }
 
     // 식물 성장 일자 계산
-    public int plantDate(LocalDate startDate) {
+    public int getPlantDate(LocalDate startDate) {
         LocalDate now = LocalDate.now(ZoneId.of("Asia/Seoul"));
 
         // 성장 일자, Today 일자 변수
@@ -53,14 +55,13 @@ public class PlantService {
         return (int) Duration.between(dateTime1, dateTime2).toDays();
     }
 
-    // 식물 이름 변경
+    // 식물 정보 변경 (이름, 성장 시작 일자, 습도 기준치, 조도 기준치)
+    @Transactional
     public void updatePlant(PlantInfoDTO dto) {
         Plant plant = plantRepository.findById(dto.getId()).orElseThrow();
         plant.setPlantName(dto.getName());
         plantRepository.save(plant);
 
-        PlantInfo plantInfo = plantInfoRepository.findById(dto.getId()).orElseThrow();
-        plantInfo.setDate(dto.getDate());
-        plantInfoRepository.save(plantInfo);
+        plantInfoService.updatePlantInfo(dto); // 성장 시작 일자, (습도, 조도) 기준치
     }
 }

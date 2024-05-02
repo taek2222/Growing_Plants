@@ -1,7 +1,7 @@
 package com.growing.backend.controller;
 
 import com.growing.backend.dto.response.WeatherDataDTO;
-import com.growing.backend.service.WeatherService;
+import com.growing.backend.service.weather.WeatherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +18,12 @@ public class WeatherController {
     // 날짜 정보 요청
     @GetMapping
     public WeatherDataDTO weather() {
-        return weatherService.getWeatherData();
+        return weatherService.getWeather();
     }
 
     // 오늘, 내일, 모레 날씨 정보 요청
     @GetMapping("/all")
     public List<WeatherDataDTO> weatherAll() {
-        return weatherService.getWeatherDataList();
+        return weatherService.getWeatherList();
     }
 }

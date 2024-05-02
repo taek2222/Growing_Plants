@@ -1,4 +1,4 @@
-package com.growing.backend.service;
+package com.growing.backend.service.weather;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -17,8 +17,8 @@ import java.time.format.DateTimeFormatter;
 public class WeatherTemperatureService {
     private final WeatherTemperatureRepository weatherTemperatureRepository;
 
-    // 최고, 최저 온도
-    public void getDataTemperature(JsonArray items) {
+    // 최고, 최저 온도 데이터 저장
+    public void setWeatherTemperature(JsonArray items) {
 
         // 최고 최저 온도 변수 선언
         double tmx = -1;
