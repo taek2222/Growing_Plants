@@ -15,13 +15,22 @@ import java.time.LocalDate;
 public class PlantInfo {
     @Id
     @Column(name = "PLANT_ID")
-    private int plantId;
+    private int plantId; // 식물 ID
 
     @Column(name = "IMAGE")
-    private String image;
+    private String image; // 식물 이미지
 
     @Column(name = "DATE")
-    private LocalDate date;
+    private LocalDate date; // 식물 성장 시작 일자
+
+    @Column(name = "LIGHT_THRESHOLD")
+    private double lightThreshold; // 조도 센서 기준치
+
+    @Column(name = "SUNLIGHT_DURATION")
+    private int sunlightDuration; // 햇빛 비춘 시간
+
+    @Column(name = "GROW_LIGHT_DURATION")
+    private int growLightDuration; // 식물등 비춘 시간
 
     @OneToOne
     @MapsId
