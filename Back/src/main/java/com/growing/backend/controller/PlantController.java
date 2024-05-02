@@ -1,17 +1,13 @@
 package com.growing.backend.controller;
-
-import com.growing.backend.dto.PlantDTO;
-import com.growing.backend.dto.PlantInfoDTO;
-import com.growing.backend.dto.PlantInfoRequestDTO;
+import com.growing.backend.dto.response.PlantDTO;
+import com.growing.backend.dto.request.PlantInfoDTO;
 import com.growing.backend.service.PlantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,13 +17,13 @@ public class PlantController {
 
     // 식물 전체 요청
     @GetMapping("/all")
-    public ResponseEntity<List<Map<String, Object>>> getPlantAll() {
+    public ResponseEntity<List<PlantDTO>> getPlantAll() {
         return ResponseEntity.ok().body(plantService.getPlantAllSearch());
     }
 
-    // 식물 이름 변경 요청
-    @PatchMapping("/name-patch")
-    public ResponseEntity<PlantInfoRequestDTO> namePatch(@RequestBody PlantInfoRequestDTO plantInfoRequestDTO) {
+    // 식물 정보 변경 요청
+    @PatchMapping("/information-patch")
+    public ResponseEntity<PlantInfoDTO> namePatch(@RequestBody PlantInfoDTO plantInfoRequestDTO) {
         plantService.updatePlant(plantInfoRequestDTO);
         return new ResponseEntity<>(plantInfoRequestDTO, HttpStatus.OK);
     }
