@@ -24,7 +24,10 @@ public class PlantInfo {
     private LocalDate date; // 식물 성장 시작 일자
 
     @Column(name = "LIGHT_THRESHOLD")
-    private double lightThreshold; // 조도 센서 기준치
+    private double lightThreshold; // 조도 기준치
+
+    @Column(name = "SOIL_THRESHOLD")
+    private double soilThreshold; // 습도 기준치
 
     @Column(name = "SUNLIGHT_DURATION")
     private int sunlightDuration; // 햇빛 비춘 시간
