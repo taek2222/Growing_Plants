@@ -26,6 +26,9 @@ public class PlantInfo {
     @Column(name = "LIGHT_THRESHOLD")
     private double lightThreshold; // 조도 기준치
 
+    @Column(name = "LIGHT_STATUS")
+    private boolean lightStatus; // 식물등 상태
+
     @Column(name = "SOIL_THRESHOLD")
     private double soilThreshold; // 습도 기준치
 

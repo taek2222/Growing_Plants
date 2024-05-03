@@ -41,6 +41,10 @@ public class PlantStateLightService {
                     sunlightDuration += 1; // 햇빛 시간 카운트 (분)
             }
 
+            // 식물 전등 상태 업데이트
+            if(plantInfo.isLightStatus() != lightStatus[i-1])
+                plantInfo.setLightStatus(lightStatus[i-1]);
+
             // 식물 데이터 설정
             plantInfo.setSunlightDuration(sunlightDuration);
             plantInfo.setGrowLightDuration(growLightDuration);
