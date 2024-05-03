@@ -17,7 +17,7 @@ public class PlantService {
     private final PlantRepository plantRepository;
     private final PlantInfoService plantInfoService;
 
-    // 식물 데이터 (ID, 이름, 사진, 성장 일자, 조도, 습도, 햇빛, 식물등) 반환
+    // 식물 데이터 (ID, 이름, 사진, 성장 일자, 조도, 습도, 햇빛, 식물등, 전등 상태) 반환
     public List<PlantDTO> getPlant() {
         List<Plant> plants = plantRepository.findAll();
 

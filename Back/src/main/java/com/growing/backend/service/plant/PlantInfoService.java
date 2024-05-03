@@ -25,6 +25,7 @@ public class PlantInfoService {
         plantDTO.setImage(plantInfo.getImage());
         plantDTO.setDate(getPlantDate(plantInfo.getDate()));
         plantDTO.setLightThreshold(plantInfo.getLightThreshold());
+        plantDTO.setLightStatus(plantInfo.isLightStatus());
         plantDTO.setSoilThreshold(plantInfo.getSoilThreshold());
         plantDTO.setSunlightDuration(plantInfo.getSunlightDuration());
         plantDTO.setGrowLightDuration(plantInfo.getGrowLightDuration());
