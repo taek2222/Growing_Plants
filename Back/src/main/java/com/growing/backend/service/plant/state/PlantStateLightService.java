@@ -28,11 +28,15 @@ public class PlantStateLightService {
                 // 센서 기준치 이하 & 센서가 이미 켜져 있는 경우
                 if (lightStatus[i-1])
                     growLightDuration += 1; // 식물등 시간 카운트 (분)
-                else
-                    response.add("3-"+i); // 식물등 ON
+                else {
+                    response.add("3-" + i); // 식물등 ON
+                    sunlightDuration += 1; // 햇빛 시간 카운트 (분)
+                }
             } else {
-                if (lightStatus[i-1])
-                    response.add("4-"+i); // 식물등 OFF
+                if (lightStatus[i-1]) {
+                    response.add("4-" + i); // 식물등 OFF
+                    growLightDuration += 1; // 식물등 시간 카운트 (분)
+                }
                 else
                     sunlightDuration += 1; // 햇빛 시간 카운트 (분)
             }
