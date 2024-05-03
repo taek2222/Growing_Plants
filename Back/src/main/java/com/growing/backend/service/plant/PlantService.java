@@ -35,7 +35,7 @@ public class PlantService {
     // 식물 정보 변경 (이름, 성장 일자, 습도 기준치, 조도 기준치)
     @Transactional
     public void updatePlant(PlantInfoDTO dto) {
-        Plant plant = plantRepository.findById(dto.getId()).orElseThrow();
+        Plant plant = plantRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("Update Plant Not Found : " + dto.getId()));
         plant.setPlantName(dto.getName());
 
         plantInfoService.updatePlantInfo(dto); // 성장 시작 일자, (습도, 조도) 기준치

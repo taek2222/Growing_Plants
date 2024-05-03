@@ -44,8 +44,10 @@ public class PlantInfoService {
 
     // 식물 정보 변경 (성장 일자, (습도, 조도) 기준치)
     public void updatePlantInfo(PlantInfoDTO dto) {
-        PlantInfo plantInfo = plantInfoRepository.findById(dto.getId()).orElseThrow();
+        PlantInfo plantInfo = plantInfoRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("Update PlantInfo Not Found : " + dto.getId()));
         plantInfo.setDate(dto.getDate());
+        plantInfo.setLightThreshold(dto.getLightThreshold());
+        plantInfo.setSoilThreshold(dto.getSoilThreshold());
         plantInfoRepository.save(plantInfo);
     }
 }
