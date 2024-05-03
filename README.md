@@ -1,5 +1,5 @@
-# Growing_Plants
-아두이노(Arduino) + 라즈베리파이(Raspberry Pi) + 스프링부트(Spring Boot) + HTML, CSS, JavaScript
+# 🌱Growing_Plants
+아두이노(Arduino) + 라즈베리파이(Raspberry Pi) + 스프링부트(Spring Boot) + HTML, CSS, JavaScript
 
 <br>
 
