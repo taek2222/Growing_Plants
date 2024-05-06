@@ -17,23 +17,23 @@ public class WeatherData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DATA_ID")
-    private int dataId;
+    private int dataId; // 데이터 번호
 
     @Column(name = "FCST_Date")
-    private LocalDate fcstDate;
+    private LocalDate fcstDate; // 날짜
 
     @Column(name = "FCST_TIME")
-    private LocalTime fcstTime;
+    private LocalTime fcstTime; // 시간
 
     @Column(name = "TEMPERATURE")
-    private int temperature;
+    private int temperature; // 온도(1시간)
 
     @Column(name = "HUMIDITY")
-    private int humidity;
+    private int humidity; // 습도
 
     @Column(name = "WEATHER_CODE")
-    private int weatherCode;
+    private int weatherCode; // 기상 코드
 
     @Column(name = "RAIN")
-    private int rain;
+    private int rain; // 강수 확률
 }

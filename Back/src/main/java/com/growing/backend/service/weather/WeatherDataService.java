@@ -1,4 +1,4 @@
-package com.growing.backend.service;
+package com.growing.backend.service.weather;
 
 import com.google.gson.*;
 import com.growing.backend.entity.WeatherData;
@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.BufferedReader;
@@ -33,11 +34,11 @@ public class WeatherDataService {
     static String baseDate;
     static String baseTime;
 
-//    @Scheduled(cron = "0 0 */1 * * ?") // 크론식 1시간 마다
-    @Scheduled(cron = "0 */1 * * * *") // 크론식 1분 마다
+    @Transactional
+    @Scheduled(cron = "0 0 */1 * * ?")
     public void getWeatherData() throws IOException {
         // baseDate, baseTime 시간, 날짜 설정
-        setBaseTimeBaseDate();
+        setBaseTimeDate();
 
         // 기상청 요청
         String urlStr = UriComponentsBuilder.fromHttpUrl("https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?")
@@ -66,11 +67,11 @@ public class WeatherDataService {
         br.close();
         conn.disconnect();
 
-        parseWeatherData(content);
+        addWeatherData(content);
     }
 
     // API 요청 시간 및 날짜 설정
-    private void setBaseTimeBaseDate() {
+    private void setBaseTimeDate() {
         // Asia/Seoul 기준 날짜 시간 설정
         LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
@@ -98,7 +99,7 @@ public class WeatherDataService {
     }
 
     // 파싱 데이터 DB 삽입 코드
-    private void parseWeatherData(String jsonResponse) {
+    private void addWeatherData(String jsonResponse) {
         JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
         JsonObject response = jsonObject.getAsJsonObject("response");
         JsonObject body = response.getAsJsonObject("body");
@@ -121,7 +122,7 @@ public class WeatherDataService {
 
         // 최고, 최저 온도 기록
         if (hour.equals("0200"))
-            weatherTemperatureService.getDataTemperature(items);
+            weatherTemperatureService.setWeatherTemperature(items);
 
         // 파싱 데이터 탐색
         for (JsonElement itemElement : items) {

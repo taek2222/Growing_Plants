@@ -16,14 +16,14 @@ public class WeatherTemperature {
     @Id
     @Column(name = "DATE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int dateId;
+    private int dateId; // 데이터 번호
 
     @Column(name = "FCST_Date")
-    private LocalDate fcstDate;
+    private LocalDate fcstDate; // 날짜
 
     @Column(name = "TMX")
-    private double tmx;
+    private double tmx; // 최고 온도
 
-    @Column(name = "tmn")
-    private double tmn;
+    @Column(name = "TMN")
+    private double tmn; // 최저 온도
 }

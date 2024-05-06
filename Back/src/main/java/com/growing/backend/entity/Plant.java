@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 public class Plant {
     @Id
     @Column(name = "PLANT_ID")
-    private int plantId;
+    private int plantId; // 식물 ID
 
     @Column(name = "PLANT_NAME")
-    private String plantName;
+    private String plantName; // 식물 이름
 }

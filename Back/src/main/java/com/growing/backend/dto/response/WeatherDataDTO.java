@@ -1,9 +1,10 @@
-package com.growing.backend.dto;
+package com.growing.backend.dto.response;
 
 import lombok.*;
 
 @Getter
 @Setter
+// 기상청 정보 GET(Back -> Front) 요청 DTO
 public class WeatherDataDTO {
     private int month; // 월
     private int day; // 일
