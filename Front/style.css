@@ -1,0 +1,354 @@
+/* 기본 스타일 */
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.wrapper {
+  border: 2px solid #000;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 440px;
+  margin: 40px auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+header {
+  background-color: white;
+  color: black;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+.weather-icon {
+  display: flex;
+  position: absolute;
+  cursor: pointer;
+}
+.weather-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+}
+
+.rain-probability {
+  position: absolute;
+  left: 67%;
+  top: 85%;
+}
+.weather-date {
+  position: absolute;
+  left: 66%;
+  top: 30%;
+}
+.location {
+  font-size: 14px;
+  margin-top: 10px;
+  margin-left: 30px;
+  text-align: left;
+}
+.temperature{
+  font-size: 14px;
+  margin-top: 40px;
+  margin-left: 30px;
+  text-align: left;
+}
+.location{
+  margin-top: -5px;
+}
+.location h2, .location h3, .temperature p {
+  margin: 0;
+  padding: 0;
+}
+.location h2{
+  position: absolute;
+  top:40%;
+}
+.temperature p {
+  margin: 2px 0; /* 원하는 간격(px)으로 조절하세요 */
+}
+.location h3{
+  position: absolute;
+  color: grey;
+}
+
+.notification-icon {
+  position: absolute;
+  top: 15%;
+  transform: translateY(-50%);
+  left: 80%;
+  cursor: pointer;
+}
+
+
+.weather-icon {
+  left: 73%;
+  top: 50%
+}
+
+.weather-icon img {
+  margin-top: 10px;
+  width: 60px;
+  height: 60px;
+}
+.notification-icon img{
+  width: 36px;
+  height: 36px;
+}
+.plant-monitor {
+  margin-top: -10px; 
+}
+.plant-monitor, .atmosphere-data {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  flex-wrap: nowrap;
+  padding: 20px;
+}
+.atmosphere-data{
+  margin-top: -20px;
+}
+.plant, .card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.plant, .card {
+  width: 190px;
+}
+
+.plant img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+/* 강수확률, 대기온도, 대기습도 텍스트 볼드 처리 */
+.rain-probability, .temperature-display, .status-label,.weather-date {
+  font-weight: bold; /* 텍스트를 볼드체로 설정 */
+}
+
+#alert-box {
+  display: none;
+  position: absolute;
+  right: 20px;
+  top: 80px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  width: 90%;
+  max-width: 300px;
+  padding: 10px;
+  z-index: 100;
+}
+
+.thermometer,.humidity-icon {
+  width: 20%;
+  height: auto;
+}
+
+.status-label {
+  font-size: 16px;
+  color: #333;
+}
+
+.temperature-display,.humidity-display, .plant-humidity-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.thermometer,.humidity-icon {
+  margin-right: 10px;
+}
+
+.temperature-value,.humidity-value, .plant-humidity-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.status-bar, .status-fill {
+  height: 20px;
+  border-radius: 10px;
+}
+
+.status-bar {
+  background-color: #e0e0e0;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.status-fill {
+  background-color: #4CAF50;
+  height: 100%;
+}
+
+/* 반응형 미디어 쿼리 */
+@media (max-width: 600px) {
+  .wrapper {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    border: none;
+  }
+
+  body, html {
+    height: auto;
+  }
+
+  .plant-monitor, .soil-data {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  .plant, .card {
+    min-width: 50%;
+  }
+}
+
+.plant a {
+  display: block;
+  text-decoration: none;
+  color: inherit; /* 링크 색상 상속 */
+}
+
+.plant img {
+  transition: transform 0.2s ease; /* 부드러운 변형 효과 */
+}
+
+
+.plant a:active img {
+  transform: scale(0.95); /* 클릭시 이미지 축소 효과 */
+}
+
+.temperature-display, .status-bar {
+  display: flex;
+  align-items: center;
+}
+
+.status-label, .temperature-value, .percentage {
+  font-weight: bold;
+}
+
+
+.plant-monitor, .atmosphere-data {
+  overflow-x: hidden; /* 화면이 줄었을 때 스크롤바가 나오는거 수정 */
+}
+
+/*일기예보 부분*/
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 100; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+  position:relative;
+  background-color: #fefefe;
+  margin: 5% auto; /* 상하 여백 조정 */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* 너비 */
+  max-width: 640px; /* 최대 너비 */
+  height: auto; /* 높이 자동 조정 */
+  max-height: 80vh; /* 최대 높이 */
+  overflow-y: auto; /* 세로 스크롤바 활성화 */
+}
+.modal-content h2{
+  text-align: center;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.forecast-item img {
+  width: 40px; /* 아이콘 크기 */
+  height: auto; /* 높이 자동 */
+  margin-right: 10px; /* 텍스트와의 간격 */
+}
+
+.forecast-container {
+  display: flex;
+  flex-direction: column; /* 방향을 세로로 변경 */
+  align-items: center; /* 가운데 정렬 */
+  overflow-y: auto; /* 세로 스크롤 활성화 */
+  max-height: 400px; /* 최대 높이 설정 */
+  width: 100%; /* 너비를 전체로 설정 */
+}
+
+.forecast-item {
+  width: 95%; /* 너비 설정 */
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px; /* 각 아이템 간의 거리 */
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+}
+
+.forecast-date {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.weather-info {
+  display: flex;
+  align-items: center;
+}
+
+.weather-icon-modal {
+  width: 50px; /* 아이콘 크기 */
+  height: auto; /* 높이 자동 */
+  margin-right: 10px; /* 텍스트와의 간격 */
+}
+
+.weather-details {
+  display: flex;
+  justify-content: space-between; /* 요소들을 화면 너비에 맞추어 분배 */
+  width: 100%; /* 가득 채우도록 너비 설정 */
+  margin-bottom: 2px; /* 각 상세정보 간격 */
+  margin-left: 10%;
+}
+
+.temp-details, .humidity-details {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10%;
+}
+
