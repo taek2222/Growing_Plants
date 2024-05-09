@@ -18,8 +18,9 @@
                 </div>
                 <div class="weather-section">
                     <div class="weather-icon">
-                        <img id="weatherIcon" src="icon/비눈.png" alt="Weather Icon">
+                        <img id="weatherIcon" src="icon/맑음.png" alt="Weather Icon">
                     </div>
+                    <p class="weather-date"> <span id="date">--/-- 00:00 기준</span></p>
                     <p class="rain-probability">강수확률: <span id="rain">--%</span></p>
                 </div>
             </div>
@@ -30,22 +31,42 @@
             <div class="temperature">
                 <p>최고 기온: <span id="max-temp">--°</span></p>
                 <p>최저 기온: <span id="min-temp">--°</span></p>
-                <p>습 &emsp;&emsp;도: <span id="humidity">--%</span></p>
             </div>
         </header>
         <div class="plant-monitor">
-            <div class="plant">
-                <h2>식물1</h2>
-                <img src="testimage.jpg" alt="식물 1">
-                <p>21일 차</p>
+            <div class="plant" id="plant1">
+                <a href="plant.html?plantId=1">
+                    <h2>식물1</h2>
+                    <img src="testimage.jpg" alt="식물 1">
+                    <p id="day1">--일 차</p>
+                </a>
             </div>
-            <div class="plant">
-                <h2>식물2</h2>
-                <img src="testimage2.jpg" alt="식물 2">
-                <p>21일 차</p>
+            <div class="plant" id="plant2">
+                <a href="plant.html?plantId=2">
+                    <h2>식물2</h2>
+                    <img src="testimage2.jpg" alt="식물 2">
+                    <p id="day2">--일 차</p>
+                </a>
             </div>
+            
         </div>
         <section class="atmosphere-data">
+            <div class="card current-temperature">
+                <span class="status-label">흥업면 현재 온도</span>
+                <div class="temperature-display">
+                    <img src="대기온도.png" alt="온도계" class="thermometer">
+                    <span class="temperature-value">24°C</span>
+                </div>
+            </div>
+            <div class="card current-humidity">
+                <span class="status-label">흥업면 현재 습도</span>
+                <div class="humidity-display">
+                    <img src="습도.png" alt="습도 아이콘" class="humidity-icon">
+                    <span class="humidity-value">--%</span>
+                </div>
+            </div>            
+        </section>    
+          <section class="atmosphere-data">
             <div class="card atmosphere-temperature">
               <span class="status-label">대기 온도</span>
               <div class="temperature-display">
@@ -55,17 +76,26 @@
             </div>     
             <div class="card atmosphere-humidity">
               <span class="status-label">대기 습도</span>
-              <div class="status-bar">
-                <div class="status-fill" style="width: 80%;"></div>
-              </div>
-              <span class="status-label percentage">80%</span>
-            </div>
-          </section>          
+              <div class="plant-humidity-display">
+                <img src="습도.png" alt="습도 아이콘" class="humidity-icon">
+                <span class="plant-humidity-value">--%</span>
+          </section>    
         <div id="alert-box">
             <p>새로운 알림이 도착했습니다.</p>
         </div>
-    </div>
-    <script src="test3.js"></script>
+        <div id="weatherModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>흥업면 일기예보</h2>
+                <div id="weatherForecast" class="forecast-container">
+                    <!-- Weather data will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>        
+        </div>
+        
+        
+    <script src="script.js"></script>
 </body>
 
 </html>
