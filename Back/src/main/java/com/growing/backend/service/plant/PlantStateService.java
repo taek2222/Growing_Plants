@@ -49,6 +49,7 @@ public class PlantStateService {
                 DTO.getSoilMoisture1() < 0 || DTO.getSoilMoisture1() > 100 ||
                 DTO.getSoilMoisture2() < 0 || DTO.getSoilMoisture2() > 100) {
             response.add("1");
+            response.add("200");
             return response;
         }
 

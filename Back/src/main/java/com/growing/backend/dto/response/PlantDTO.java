@@ -17,6 +17,7 @@ public class PlantDTO {
     private double lightThreshold; // 조도 기준치
     private boolean lightStatus; // 식물등 상태
     private double soilThreshold; // 습도 기준치
+    private double waterThreshold; // 물 기준치
     private int sunlightDuration; // 햇빛 비춘 시간
     private int growLightDuration; // 식물등 비춘 시간
 }
