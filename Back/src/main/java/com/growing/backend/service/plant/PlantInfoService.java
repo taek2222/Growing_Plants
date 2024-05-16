@@ -29,6 +29,7 @@ public class PlantInfoService {
         plantDTO.setSoilThreshold(plantInfo.getSoilThreshold());
         plantDTO.setSunlightDuration(plantInfo.getSunlightDuration());
         plantDTO.setGrowLightDuration(plantInfo.getGrowLightDuration());
+        plantDTO.setWeatherThreshold(plantInfo.getWeatherThreshold());
     }
 
     // 식물 성장 일자 계산
@@ -49,6 +50,7 @@ public class PlantInfoService {
         plantInfo.setDate(dto.getDate());
         plantInfo.setLightThreshold(dto.getLightThreshold());
         plantInfo.setSoilThreshold(dto.getSoilThreshold());
+        plantInfo.setWeatherThreshold(dto.getWeatherThreshold());
         plantInfoRepository.save(plantInfo);
     }
 }

@@ -38,6 +38,9 @@ public class PlantInfo {
     @Column(name = "GROW_LIGHT_DURATION")
     private int growLightDuration; // 식물등 비춘 시간
 
+    @Column(name = "WEATHER_THRESHOLD")
+    private double weatherThreshold; // 물 기준치
+
     @OneToOne
     @MapsId
     @JoinColumn(name = "plant_id")
