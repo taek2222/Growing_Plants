@@ -18,13 +18,13 @@ public class PlantStateSoilService {
 
     // 습도 센서 값 체크
     public void checkSoil(List<String> response, double[] soilMoisture) {
-        for(int i = 1; i < 3; i++) {
+        for(int i = 0; i < soilMoisture.length; i++) {
             // 식물 정보 ID 조회
-            PlantInfo plantInfo = plantInfoRepository.findById(i)
+            PlantInfo plantInfo = plantInfoRepository.findById(i+1)
                     .orElseThrow(() -> new EntityNotFoundException("[PlantStateSoilService] PlantInfo Not Found"));
 
             // 식물 물 ID 조회
-            PlantWater plantWater = plantWaterRepository.findById(i)
+            PlantWater plantWater = plantWaterRepository.findById(i+1)
                     .orElseThrow(() -> new EntityNotFoundException("[PlantStateSoilService] PlantWater Not Found"));
 
             // 식물 습도 기준치 변수화, 물 Flag
@@ -32,11 +32,11 @@ public class PlantStateSoilService {
             boolean waterFlag = plantWater.isWaterToggle();
 
             // 습도 기준치 이하일 경우
-            if(soilThreshold >= soilMoisture[i-1] || waterFlag) {
+            if(soilThreshold >= soilMoisture[i] || waterFlag) {
                 plantWater.setWaterToggle(false);
                 plantWaterRepository.save(plantWater);
                 // 물 주기 상태 코드 전달
-                response.add("2-" + i);
+                response.add("2-" + (i+1));
             }
         }
     }
