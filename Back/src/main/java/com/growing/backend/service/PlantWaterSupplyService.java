@@ -1,5 +1,6 @@
 package com.growing.backend.service;
 
+import com.growing.backend.dto.response.PlantWaterSupplyDTO;
 import com.growing.backend.entity.Plant;
 import com.growing.backend.entity.PlantWaterSupply;
 import com.growing.backend.repository.PlantRepository;
@@ -12,12 +13,34 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PlantWaterSupplyService {
     private final PlantWaterSupplyRepository plantWaterSupplyRepository;
     private final PlantRepository plantRepository;
+
+    public List<PlantWaterSupplyDTO> getWaterSupplyList(int plantId) {
+        Plant plant = plantRepository.findById(plantId)
+                .orElseThrow(() -> new EntityNotFoundException("[PlantWaterSupplyService] Plant Not Found Id : " + plantId));
+
+        List<PlantWaterSupply> plantWaterSupplies = plantWaterSupplyRepository.findByPlant(plant);
+
+        AtomicInteger listId = new AtomicInteger(1);
+
+        return plantWaterSupplies.stream().map(plantWaterSupply -> {
+            PlantWaterSupplyDTO dto = new PlantWaterSupplyDTO();
+
+            dto.setListId(listId.getAndIncrement());
+            dto.setSupplyDate(plantWaterSupply.getSupplyDate());
+            dto.setSupplyTime(plantWaterSupply.getSupplyTime());
+
+            return dto;
+        }).collect(Collectors.toList());
+    }
 
     @Transactional
     public void addWaterSupplyList(int plantId) {
