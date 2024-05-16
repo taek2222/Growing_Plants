@@ -14,5 +14,5 @@ public class PlantInfoDTO {
     private LocalDate date; // 식물 성장 일자
     private double lightThreshold; // 조도 기준치
     private double soilThreshold; // 습도 기준치
-    private double weatherThreshold; // 물 기준치
+    private double waterThreshold; // 물 기준치
 }
