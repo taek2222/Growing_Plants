@@ -1,7 +1,7 @@
 package com.growing.backend.controller;
 
 import com.growing.backend.dto.response.PlantWaterSupplyDTO;
-import com.growing.backend.service.PlantWaterSupplyService;
+import com.growing.backend.service.plant.PlantWaterSupplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

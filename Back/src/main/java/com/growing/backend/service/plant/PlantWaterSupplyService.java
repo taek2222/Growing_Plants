@@ -1,4 +1,4 @@
-package com.growing.backend.service;
+package com.growing.backend.service.plant;
 
 import com.growing.backend.dto.response.PlantWaterSupplyDTO;
 import com.growing.backend.entity.Plant;
