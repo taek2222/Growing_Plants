@@ -9,6 +9,7 @@ public class PlantStateDTO {
     private double lightIntensity; // 조도
     private double airTemperature; // 대기 온도
     private double airHumidity; // 대기 습도
+    private int waterAmount; // 물통의 물 양
     private double soilMoisture1; // 토양 습도 (식물 1)
     private double soilMoisture2; // 토양 습도 (식물 2)
     private boolean lightStatus1; // 식물등 상태 (식물 1)
