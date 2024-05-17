@@ -5,6 +5,7 @@ import com.growing.backend.dto.response.PlantDTO;
 import com.growing.backend.entity.Plant;
 import com.growing.backend.entity.PlantInfo;
 import com.growing.backend.repository.PlantInfoRepository;
+import com.growing.backend.repository.PlantThresholdRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.time.ZoneId;
 @RequiredArgsConstructor
 public class PlantInfoService {
     private final PlantInfoRepository plantInfoRepository;
+    private final PlantThresholdRepository plantThresholdRepository;
 
     // 식물 데이터 (사진, 성장 일자, 조도, 습도, 햇빛, 식물등) 반환
     public void getPlantInfo(PlantDTO plantDTO, Plant plant) {
@@ -24,12 +26,9 @@ public class PlantInfoService {
 
         plantDTO.setImage(plantInfo.getImage());
         plantDTO.setDate(getPlantDate(plantInfo.getDate()));
-        plantDTO.setLightThreshold(plantInfo.getLightThreshold());
         plantDTO.setLightStatus(plantInfo.isLightStatus());
-        plantDTO.setSoilThreshold(plantInfo.getSoilThreshold());
         plantDTO.setSunlightDuration(plantInfo.getSunlightDuration());
         plantDTO.setGrowLightDuration(plantInfo.getGrowLightDuration());
-        plantDTO.setWaterThreshold(plantInfo.getWaterThreshold());
     }
 
     // 식물 성장 일자 계산
@@ -44,13 +43,10 @@ public class PlantInfoService {
         return (int) Duration.between(dateTime1, dateTime2).toDays();
     }
 
-    // 식물 정보 변경 (성장 일자, (습도, 조도) 기준치)
+    // 식물 정보 변경 (성장 일자)
     public void updatePlantInfo(PlantInfoDTO dto) {
         PlantInfo plantInfo = plantInfoRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("Update PlantInfo Not Found : " + dto.getId()));
         plantInfo.setDate(dto.getDate());
-        plantInfo.setLightThreshold(dto.getLightThreshold());
-        plantInfo.setSoilThreshold(dto.getSoilThreshold());
-        plantInfo.setWaterThreshold(dto.getWaterThreshold());
         plantInfoRepository.save(plantInfo);
     }
 }
