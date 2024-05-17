@@ -18,7 +18,6 @@ import java.time.ZoneId;
 @RequiredArgsConstructor
 public class PlantInfoService {
     private final PlantInfoRepository plantInfoRepository;
-    private final PlantThresholdRepository plantThresholdRepository;
 
     // 식물 데이터 (사진, 성장 일자, 조도, 습도, 햇빛, 식물등) 반환
     public void getPlantInfo(PlantDTO plantDTO, Plant plant) {
