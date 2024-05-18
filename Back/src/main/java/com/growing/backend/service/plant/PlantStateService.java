@@ -27,11 +27,14 @@ public class PlantStateService {
         Pageable topOne = PageRequest.of(0, 1);
         PlantState latestPlantState = plantStateRepository.findAllByOrderByDateDescTimeDesc(topOne).get(0);
 
-        PlantStateDTO DTO = new PlantStateDTO();
-        DTO.setAirTemperature(latestPlantState.getAirTemperature());
-        DTO.setAirHumidity(latestPlantState.getAirHumidity());
+        PlantStateDTO dto = new PlantStateDTO();
+        dto.setLightIntensity(latestPlantState.getLightIntensity());
+        dto.setAirTemperature(latestPlantState.getAirTemperature());
+        dto.setAirHumidity(latestPlantState.getAirHumidity());
+        dto.setSoilMoisture1(latestPlantState.getSoilMoisture1());
+        dto.setSoilMoisture2(latestPlantState.getSoilMoisture2());
 
-        return DTO;
+        return dto;
     }
 
     // 수집 데이터 처리 메소드
@@ -44,7 +47,8 @@ public class PlantStateService {
                 DTO.getAirTemperature() < 0 || DTO.getAirTemperature() > 100 ||
                 DTO.getAirHumidity() < 0 || DTO.getAirHumidity() > 100 ||
                 DTO.getSoilMoisture1() < 0 || DTO.getSoilMoisture1() > 100 ||
-                DTO.getSoilMoisture2() < 0 || DTO.getSoilMoisture2() > 100) {
+                DTO.getSoilMoisture2() < 0 || DTO.getSoilMoisture2() > 100 ||
+                DTO.getWaterAmount() < 0 || DTO.getWaterAmount() > 100) {
             response.add("1");
             response.add("200");
             return response;
@@ -60,11 +64,18 @@ public class PlantStateService {
         // 조도 센서 값 체크
         plantThresholdService.checkLight(response, DTO.getLightIntensity(), lightStatus);
 
+        // 물통 값 체크
+        checkPlantStateWaterAmount(response, DTO.getWaterAmount());
+
         savePlantState(DTO);
 
         response.add("200");
 
         return response;
+    }
+
+    private void checkPlantStateWaterAmount(List<String> response, int waterAmount) {
+
     }
 
     // 데이터 저장 메소드
@@ -80,6 +91,7 @@ public class PlantStateService {
         plantState.setAirHumidity(DTO.getAirHumidity());
         plantState.setSoilMoisture1(DTO.getSoilMoisture1());
         plantState.setSoilMoisture2(DTO.getSoilMoisture2());
+        plantState.setWaterAmount(DTO.getWaterAmount());
 
         plantStateRepository.save(plantState);
     }
