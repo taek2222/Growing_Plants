@@ -3,8 +3,6 @@ package com.growing.backend.service.plant;
 import com.growing.backend.dto.request.PlantStateDTO;
 import com.growing.backend.entity.PlantState;
 import com.growing.backend.repository.PlantStateRepository;
-import com.growing.backend.service.plant.state.PlantStateLightService;
-import com.growing.backend.service.plant.state.PlantStateSoilService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PlantStateService {
     private final PlantStateRepository plantStateRepository;
-    private final PlantStateLightService plantStateLightService;
-    private final PlantStateSoilService plantStateSoilService;
+    private final PlantThresholdService plantThresholdService;
 
     // 식물 센서 측정 값 전달 (대기 온도, 대기 습도)
     public PlantStateDTO getPlantState() {
@@ -58,10 +55,10 @@ public class PlantStateService {
         double[] soilStatus = new double[] {DTO.getSoilMoisture1(), DTO.getSoilMoisture2()};
 
         // 습도 센서 값 체크
-        plantStateSoilService.checkSoil(response, soilStatus);
+        plantThresholdService.checkSoil(response, soilStatus);
 
         // 조도 센서 값 체크
-        plantStateLightService.checkLight(response, DTO.getLightIntensity(), lightStatus);
+        plantThresholdService.checkLight(response, DTO.getLightIntensity(), lightStatus);
 
         savePlantState(DTO);
 

@@ -23,23 +23,14 @@ public class PlantInfo {
     @Column(name = "DATE")
     private LocalDate date; // 식물 성장 시작 일자
 
-    @Column(name = "LIGHT_THRESHOLD")
-    private double lightThreshold; // 조도 기준치
-
     @Column(name = "LIGHT_STATUS")
     private boolean lightStatus; // 식물등 상태
-
-    @Column(name = "SOIL_THRESHOLD")
-    private double soilThreshold; // 습도 기준치
 
     @Column(name = "SUNLIGHT_DURATION")
     private int sunlightDuration; // 햇빛 비춘 시간
 
     @Column(name = "GROW_LIGHT_DURATION")
     private int growLightDuration; // 식물등 비춘 시간
-
-    @Column(name = "WATER_THRESHOLD")
-    private double waterThreshold; // 물 기준치
 
     @OneToOne
     @MapsId

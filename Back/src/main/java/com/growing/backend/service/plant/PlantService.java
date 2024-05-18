@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class PlantService {
     private final PlantRepository plantRepository;
     private final PlantInfoService plantInfoService;
+    private final PlantThresholdService plantThresholdService;
 
     // 식물 데이터 (ID, 이름, 사진, 성장 일자, 조도, 습도, 햇빛, 식물등, 전등 상태) 반환
     public List<PlantDTO> getPlant() {
@@ -27,6 +28,7 @@ public class PlantService {
             plantDTO.setPlantId(plant.getPlantId());
             plantDTO.setPlantName(plant.getPlantName());
             plantInfoService.getPlantInfo(plantDTO, plant);
+            plantThresholdService.getPlantThreshold(plantDTO, plant);
 
             return plantDTO;
         }).collect(Collectors.toList());
@@ -38,7 +40,9 @@ public class PlantService {
         Plant plant = plantRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("Update Plant Not Found : " + dto.getId()));
         plant.setPlantName(dto.getName());
 
-        plantInfoService.updatePlantInfo(dto); // 성장 시작 일자, (습도, 조도) 기준치
+        plantInfoService.updatePlantInfo(dto); // 성장 시작 일자
+        plantThresholdService.updatePlantThreshold(dto); // 습도, 조도, 물 기준치
+
         plantRepository.save(plant);
     }
 }
