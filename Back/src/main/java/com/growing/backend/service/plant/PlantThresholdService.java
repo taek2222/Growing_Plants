@@ -112,4 +112,14 @@ public class PlantThresholdService {
             plantInfoRepository.save(plantInfo);
         }
     }
+
+    // 물통 수위 센서 값 체크
+    void checkPlantStateWaterAmount(List<String> response, int waterAmount) {
+        PlantThreshold plantThreshold = plantThresholdRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("[PlantStateSoilService] PlantThreshold Not Found"));
+
+        if(waterAmount < plantThreshold.getWaterThreshold()) {
+            // 알림 전달 추가 해야함.
+        }
+
+    }
 }

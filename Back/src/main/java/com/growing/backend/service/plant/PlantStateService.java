@@ -66,17 +66,13 @@ public class PlantStateService {
         plantThresholdService.checkLight(response, DTO.getLightIntensity(), lightStatus);
 
         // 물통 값 체크
-        checkPlantStateWaterAmount(response, DTO.getWaterAmount());
+        // plantThresholdService.checkPlantStateWaterAmount(response, DTO.getWaterAmount());
 
         savePlantState(DTO);
 
         response.add("200");
 
         return response;
-    }
-
-    private void checkPlantStateWaterAmount(List<String> response, int waterAmount) {
-
     }
 
     // 데이터 저장 메소드
