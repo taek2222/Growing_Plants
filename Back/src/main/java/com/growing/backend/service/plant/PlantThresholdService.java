@@ -69,13 +69,13 @@ public class PlantThresholdService {
     public void checkLight(List<String> response, double light, boolean[] lightStatus) {
         final int countTime = 1;
 
-        for (int i = 1; i < 3; i++) {
+        for (int i = 0; i < lightStatus.length; i++) {
             // 식물 ID 조회
-            PlantInfo plantInfo = plantInfoRepository.findById(i)
+            PlantInfo plantInfo = plantInfoRepository.findById(i+1)
                     .orElseThrow(() -> new RuntimeException("Error Light Method : "));
 
             // 식물 기준치 ID 조회
-            PlantThreshold plantThreshold = plantThresholdRepository.findById(i + 1)
+            PlantThreshold plantThreshold = plantThresholdRepository.findById(i+1)
                     .orElseThrow(() -> new EntityNotFoundException("[PlantStateSoilService] PlantThreshold Not Found"));
 
             // 식물 조도 기준치, 식물등 시간, 햇빛 시간 변수화
@@ -86,23 +86,23 @@ public class PlantThresholdService {
             // 조도 센서 값이 기준치 이하일 경우
             if (light <= lightThreshold) {
                 // 센서 기준치 이하 & 센서가 이미 켜져 있는 경우
-                if (lightStatus[i - 1])
+                if (lightStatus[i])
                     growLightDuration += countTime; // 식물등 시간 카운트 (분)
                 else {
-                    response.add("3-" + i); // 식물등 ON
+                    response.add("3-" + (i+1)); // 식물등 ON
                     sunlightDuration += countTime; // 햇빛 시간 카운트 (분)
                 }
             } else {
-                if (lightStatus[i - 1]) {
-                    response.add("4-" + i); // 식물등 OFF
+                if (lightStatus[i]) {
+                    response.add("4-" + (i+1)); // 식물등 OFF
                     growLightDuration += countTime; // 식물등 시간 카운트 (분)
                 } else
                     sunlightDuration += countTime; // 햇빛 시간 카운트 (분)
             }
 
             // 식물 전등 상태 업데이트
-            if (plantInfo.isLightStatus() != lightStatus[i - 1])
-                plantInfo.setLightStatus(lightStatus[i - 1]);
+            if (plantInfo.isLightStatus() != lightStatus[i])
+                plantInfo.setLightStatus(lightStatus[i]);
 
             // 식물 데이터 설정
             plantInfo.setSunlightDuration(sunlightDuration);
