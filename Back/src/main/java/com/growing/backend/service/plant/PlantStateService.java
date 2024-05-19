@@ -33,6 +33,7 @@ public class PlantStateService {
         dto.setAirHumidity(latestPlantState.getAirHumidity());
         dto.setSoilMoisture1(latestPlantState.getSoilMoisture1());
         dto.setSoilMoisture2(latestPlantState.getSoilMoisture2());
+        dto.setWaterAmount(latestPlantState.getWaterAmount());
 
         return dto;
     }
