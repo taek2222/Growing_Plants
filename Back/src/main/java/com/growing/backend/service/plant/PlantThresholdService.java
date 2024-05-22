@@ -67,7 +67,7 @@ public class PlantThresholdService {
 
     // 조도 센서 값 체크
     public void checkLight(List<String> response, double light, boolean[] lightStatus) {
-        final int countTime = 1;
+        int countTime;
 
         for (int i = 0; i < lightStatus.length; i++) {
             // 식물 ID 조회
@@ -82,6 +82,11 @@ public class PlantThresholdService {
             double lightThreshold = plantThreshold.getLightThreshold();
             int sunlightDuration = plantInfo.getSunlightDuration();
             int growLightDuration = plantInfo.getGrowLightDuration();
+
+            // 식물 시간 최대 카운트
+            if(plantThreshold.getSunLightMax() <= sunlightDuration + growLightDuration)
+                countTime = 0;
+            else countTime = 1;
 
             // 조도 센서 값이 기준치 이하일 경우
             if (light <= lightThreshold) {

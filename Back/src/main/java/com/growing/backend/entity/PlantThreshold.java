@@ -24,6 +24,9 @@ public class PlantThreshold {
     @Column(name = "WATER_THRESHOLD")
     private double waterThreshold; // 물 기준치
 
+    @Column(name = "SUN_LIGHT_MAX")
+    private int sunLightMax; // 햇빛 + 식물등 시간 최대치
+
     @OneToOne
     @MapsId
     @JoinColumn(name = "PLANT_ID")
