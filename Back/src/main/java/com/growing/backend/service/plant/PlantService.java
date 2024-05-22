@@ -36,13 +36,13 @@ public class PlantService {
 
     // 식물 설정 정보 요청
     public PlantSettingResponse.PlantSetting getPlantSetting(int plantId) {
-        Plant plant = plantRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException("[getSettingPlant] Plant Not Found Id : " + plantId));
+        Plant plant = plantRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException(this.getClass().getSimpleName() + " Plant Not Found Id : " + plantId));
         return new PlantSettingResponse.PlantSetting(plant.getPlantId(), plant.getPlantName());
     }
 
     // 식물 정보 변경
     public void updatePlantSetting(int plantId, String plantName) {
-        Plant plant = plantRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException( this.getClass().getSimpleName() + "Plant Not Found Id : " + plantId));
+        Plant plant = plantRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException(this.getClass().getSimpleName() + " Plant Not Found Id : " + plantId));
 
         plant.setPlantName(plantName);
         plantRepository.save(plant);

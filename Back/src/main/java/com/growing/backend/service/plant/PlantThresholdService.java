@@ -121,13 +121,13 @@ public class PlantThresholdService {
 
     // 식물 설정 정보 요청
     public PlantSettingResponse.PlantThresholdSetting getPlantThresholdSetting(int plantId) {
-        PlantThreshold plantThreshold = plantThresholdRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException("[getSettingPlant] PlantThreshold Not Found Id : " + plantId));
-        return new PlantSettingResponse.PlantThresholdSetting(plantThreshold.getLightThreshold(), plantThreshold.getSoilThreshold(), plantThreshold.getWaterThreshold());
+        PlantThreshold plantThreshold = plantThresholdRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException(this.getClass().getSimpleName() + " PlantThreshold Not Found Id : " + plantId));
+        return new PlantSettingResponse.PlantThresholdSetting(plantThreshold.getLightThreshold(), plantThreshold.getSoilThreshold(), plantThreshold.getWaterThreshold(), plantThreshold.getSunLightMax());
     }
 
     // 식물 정보 변경
     public void updatePlantThresholdSetting(int plantId, double lightThreshold, double soilThreshold, double waterThreshold, int sunLightMax) {
-        PlantThreshold plantThreshold = plantThresholdRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException(this.getClass().getSimpleName() + "PlantThreshold Not Found Id : " + plantId));
+        PlantThreshold plantThreshold = plantThresholdRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException(this.getClass().getSimpleName() + " PlantThreshold Not Found Id : " + plantId));
 
         plantThreshold.setLightThreshold(lightThreshold);
         plantThreshold.setSoilThreshold(soilThreshold);

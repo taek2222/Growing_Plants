@@ -61,14 +61,14 @@ public class PlantInfoService {
 
     // 식물 설정 정보 요청
     public PlantSettingResponse.PlantInfoSetting getPlantInfoSetting(int plantId) {
-        PlantInfo plantInfo = plantInfoRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException("[getSettingPlant] PlantInfo Not Found Id : " + plantId));
+        PlantInfo plantInfo = plantInfoRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException(this.getClass().getSimpleName() + " PlantInfo Not Found Id : " + plantId));
 
        return new PlantSettingResponse.PlantInfoSetting(getPlantDate(plantInfo.getDate()));
     }
 
     // 식물 정보 변경
     public void updatePlantInfoSetting(int plantId, LocalDate date) {
-        PlantInfo plantInfo = plantInfoRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException( this.getClass().getSimpleName() + "PlantInfo Not Found Id : " + plantId));
+        PlantInfo plantInfo = plantInfoRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException(this.getClass().getSimpleName() + " PlantInfo Not Found Id : " + plantId));
 
         plantInfo.setDate(date);
         plantInfoRepository.save(plantInfo);
