@@ -15,4 +15,5 @@ public class PlantInfoDTO {
     private double lightThreshold; // 조도 기준치
     private double soilThreshold; // 습도 기준치
     private double waterThreshold; // 물 기준치
+    private int sunLightMax; // // 햇빛 + 식물등 시간 최대치
 }

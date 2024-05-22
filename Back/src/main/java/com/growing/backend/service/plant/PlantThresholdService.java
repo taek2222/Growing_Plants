@@ -37,6 +37,7 @@ public class PlantThresholdService {
         plantThreshold.setLightThreshold(dto.getLightThreshold());
         plantThreshold.setSoilThreshold(dto.getSoilThreshold());
         plantThreshold.setWaterThreshold(dto.getWaterThreshold());
+        plantThreshold.setSunLightMax(dto.getSunLightMax());
         plantThresholdRepository.save(plantThreshold);
     }
 

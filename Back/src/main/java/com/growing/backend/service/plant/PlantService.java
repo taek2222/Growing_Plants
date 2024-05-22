@@ -41,7 +41,7 @@ public class PlantService {
         plant.setPlantName(dto.getName());
 
         plantInfoService.updatePlantInfo(dto); // 성장 시작 일자
-        plantThresholdService.updatePlantThreshold(dto); // 습도, 조도, 물 기준치
+        plantThresholdService.updatePlantThreshold(dto); // 습도, 조도, 물 기준치, 햇빛 + 식물등 시간 최대치
 
         plantRepository.save(plant);
     }
