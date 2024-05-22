@@ -1,10 +1,11 @@
-package com.growing.backend.dto.request;
+package com.growing.backend.dto.response;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-// 식물 센서 값 POST(Software->Back) 요청 DTO
+// 식물 센서 값 POST(Back->Front) 요청 DTO
 public class PlantStateDTO {
     private double lightIntensity; // 조도
     private double airTemperature; // 대기 온도

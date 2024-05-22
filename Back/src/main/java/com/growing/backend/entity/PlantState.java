@@ -38,4 +38,7 @@ public class PlantState {
 
     @Column(name = "SOILMOISTURE2")
     private double soilMoisture2; // 토양 습도 (식물 2)
+
+    @Column(name = "WATER_AMOUNT")
+    private int waterAmount; // 물통의 물 양
 }

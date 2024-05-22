@@ -1,18 +1,21 @@
 package com.growing.backend.service.plant;
 
-import com.growing.backend.dto.request.PlantInfoDTO;
 import com.growing.backend.dto.response.PlantDTO;
+import com.growing.backend.dto.response.PlantSettingResponse;
 import com.growing.backend.entity.Plant;
 import com.growing.backend.entity.PlantInfo;
 import com.growing.backend.repository.PlantInfoRepository;
-import com.growing.backend.repository.PlantThresholdRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -42,10 +45,32 @@ public class PlantInfoService {
         return (int) Duration.between(dateTime1, dateTime2).toDays();
     }
 
-    // 식물 정보 변경 (성장 일자)
-    public void updatePlantInfo(PlantInfoDTO dto) {
-        PlantInfo plantInfo = plantInfoRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("Update PlantInfo Not Found : " + dto.getId()));
-        plantInfo.setDate(dto.getDate());
+    // 식물 습득 정보 데이터 초기화 [(햇빛, 식물등 시간)]
+    @Transactional
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void resetPlantInfo() {
+        List<PlantInfo> plantInfoList = plantInfoRepository.findAll();
+
+        for(PlantInfo plantInfo : plantInfoList) {
+            plantInfo.setSunlightDuration(0);
+            plantInfo.setGrowLightDuration(0);
+        }
+
+        plantInfoRepository.saveAll(plantInfoList);
+    }
+
+    // 식물 설정 정보 요청
+    public PlantSettingResponse.PlantInfoSetting getPlantInfoSetting(int plantId) {
+        PlantInfo plantInfo = plantInfoRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException(this.getClass().getSimpleName() + " PlantInfo Not Found Id : " + plantId));
+
+       return new PlantSettingResponse.PlantInfoSetting(getPlantDate(plantInfo.getDate()));
+    }
+
+    // 식물 정보 변경
+    public void updatePlantInfoSetting(int plantId, LocalDate date) {
+        PlantInfo plantInfo = plantInfoRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException(this.getClass().getSimpleName() + " PlantInfo Not Found Id : " + plantId));
+
+        plantInfo.setDate(date);
         plantInfoRepository.save(plantInfo);
     }
 }
