@@ -9,9 +9,13 @@ import java.time.LocalDate;
 @Setter
 // 식물 상세 정보 PATCH(Front->Back) 요청 DTO
 public class PlantSettingRequest {
-    private int plantId; // 식물 아이디
+    // Plant
     private String plantName; // 식물 이름
+
+    // PlantInfo
     private LocalDate date; // 성장 일자
+
+    // PlantThreshold
     private double lightThreshold; // 조도 기준치
     private double soilThreshold; // 습도 기준치
     private double waterThreshold; // 물 기준치
