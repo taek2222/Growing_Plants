@@ -1,6 +1,7 @@
 package com.growing.backend.service.plant;
-import com.growing.backend.dto.request.PlantInfoDTO;
+import com.growing.backend.dto.request.PlantSettingRequest;
 import com.growing.backend.dto.response.PlantDTO;
+import com.growing.backend.dto.response.PlantSettingResponse;
 import com.growing.backend.entity.Plant;
 import com.growing.backend.entity.PlantInfo;
 import com.growing.backend.entity.PlantThreshold;
@@ -31,9 +32,9 @@ public class PlantThresholdService {
     }
 
     // 식물 기준치 변경
-    public void updatePlantThreshold(PlantInfoDTO dto) {
-        PlantThreshold plantThreshold = plantThresholdRepository.findById(dto.getId())
-                .orElseThrow(() -> new RuntimeException("[PlantThresholdService] PlantThreshold Not Found : " + dto.getId()));
+    public void updatePlantThreshold(PlantSettingRequest dto) {
+        PlantThreshold plantThreshold = plantThresholdRepository.findById(dto.getPlantId())
+                .orElseThrow(() -> new RuntimeException("[PlantThresholdService] PlantThreshold Not Found : " + dto.getPlantId()));
         plantThreshold.setLightThreshold(dto.getLightThreshold());
         plantThreshold.setSoilThreshold(dto.getSoilThreshold());
         plantThreshold.setWaterThreshold(dto.getWaterThreshold());
@@ -127,5 +128,11 @@ public class PlantThresholdService {
             // 알림 전달 추가 해야함.
         }
 
+    }
+
+    // 식물 설정 정보 요청
+    public PlantSettingResponse.PlantThresholdSetting getPlantThresholdSetting(int plantId) {
+        PlantThreshold plantThreshold = plantThresholdRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException("[getSettingPlant] PlantThreshold Not Found Id : " + plantId));
+        return new PlantSettingResponse.PlantThresholdSetting(plantThreshold.getLightThreshold(), plantThreshold.getSoilThreshold(), plantThreshold.getWaterThreshold());
     }
 }

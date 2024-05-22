@@ -1,10 +1,12 @@
 package com.growing.backend.service.plant;
 
-import com.growing.backend.dto.request.PlantInfoDTO;
+import com.growing.backend.dto.request.PlantSettingRequest;
 import com.growing.backend.dto.response.PlantDTO;
+import com.growing.backend.dto.response.PlantSettingResponse;
 import com.growing.backend.entity.Plant;
 import com.growing.backend.entity.PlantInfo;
 import com.growing.backend.repository.PlantInfoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -45,8 +47,8 @@ public class PlantInfoService {
     }
 
     // 식물 정보 변경 (성장 일자)
-    public void updatePlantInfo(PlantInfoDTO dto) {
-        PlantInfo plantInfo = plantInfoRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("Update PlantInfo Not Found : " + dto.getId()));
+    public void updatePlantInfo(PlantSettingRequest dto) {
+        PlantInfo plantInfo = plantInfoRepository.findById(dto.getPlantId()).orElseThrow(() -> new RuntimeException("Update PlantInfo Not Found : " + dto.getPlantId()));
         plantInfo.setDate(dto.getDate());
         plantInfoRepository.save(plantInfo);
     }
@@ -63,5 +65,12 @@ public class PlantInfoService {
         }
 
         plantInfoRepository.saveAll(plantInfoList);
+    }
+
+    // 식물 설정 정보 요청
+    public PlantSettingResponse.PlantInfoSetting getPlantInfoSetting(int plantId) {
+        PlantInfo plantInfo = plantInfoRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException("[getSettingPlant] PlantInfo Not Found Id : " + plantId));
+
+       return new PlantSettingResponse.PlantInfoSetting(getPlantDate(plantInfo.getDate()));
     }
 }
