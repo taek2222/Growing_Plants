@@ -31,17 +31,6 @@ public class PlantThresholdService {
         plantDTO.setWaterThreshold(plantThreshold.getWaterThreshold());
     }
 
-    // 식물 기준치 변경
-    public void updatePlantThreshold(PlantSettingRequest dto) {
-        PlantThreshold plantThreshold = plantThresholdRepository.findById(dto.getPlantId())
-                .orElseThrow(() -> new RuntimeException("[PlantThresholdService] PlantThreshold Not Found : " + dto.getPlantId()));
-        plantThreshold.setLightThreshold(dto.getLightThreshold());
-        plantThreshold.setSoilThreshold(dto.getSoilThreshold());
-        plantThreshold.setWaterThreshold(dto.getWaterThreshold());
-        plantThreshold.setSunLightMax(dto.getSunLightMax() * 60);
-        plantThresholdRepository.save(plantThreshold);
-    }
-
     // 습도 센서 값 체크
     public void checkSoil(List<String> response, double[] soilMoisture) {
         for(int i = 0; i < soilMoisture.length; i++) {
@@ -134,5 +123,16 @@ public class PlantThresholdService {
     public PlantSettingResponse.PlantThresholdSetting getPlantThresholdSetting(int plantId) {
         PlantThreshold plantThreshold = plantThresholdRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException("[getSettingPlant] PlantThreshold Not Found Id : " + plantId));
         return new PlantSettingResponse.PlantThresholdSetting(plantThreshold.getLightThreshold(), plantThreshold.getSoilThreshold(), plantThreshold.getWaterThreshold());
+    }
+
+    // 식물 정보 변경
+    public void updatePlantThresholdSetting(int plantId, double lightThreshold, double soilThreshold, double waterThreshold, int sunLightMax) {
+        PlantThreshold plantThreshold = plantThresholdRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException(this.getClass().getSimpleName() + "PlantThreshold Not Found Id : " + plantId));
+
+        plantThreshold.setLightThreshold(lightThreshold);
+        plantThreshold.setSoilThreshold(soilThreshold);
+        plantThreshold.setWaterThreshold(waterThreshold);
+        plantThreshold.setSunLightMax(sunLightMax * 60); // 시간을 분으로 치환 * 60
+        plantThresholdRepository.save(plantThreshold);
     }
 }

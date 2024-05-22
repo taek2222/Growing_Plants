@@ -1,5 +1,6 @@
 package com.growing.backend.controller;
 
+import com.growing.backend.dto.request.PlantSettingRequest;
 import com.growing.backend.dto.response.PlantSettingResponse;
 import com.growing.backend.service.PlantSettingService;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +21,9 @@ public class PlantSettingController {
     }
 
     // 식물 설정 변경
-//    @PatchMapping("/information-patch")
-//    public ResponseEntity<PlantSettingRequest> updatePlantSetting(@RequestBody PlantSettingRequest plantInfoRequestDTO) {
-//        plantService.updatePlant(plantInfoRequestDTO);
-//        return new ResponseEntity<>(plantInfoRequestDTO, HttpStatus.OK);
-//    }
+    @PatchMapping("/information-patch/{plant_id}")
+    public ResponseEntity<PlantSettingRequest> updatePlantSetting(@PathVariable("plant_id") int plantId, @RequestBody PlantSettingRequest plantSettingRequest) {
+        plantSettingService.updatePlantSetting(plantId, plantSettingRequest);
+        return new ResponseEntity<>(plantSettingRequest, HttpStatus.OK);
+    }
 }

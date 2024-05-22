@@ -1,14 +1,12 @@
 package com.growing.backend.service.plant;
 
 import com.growing.backend.dto.response.PlantDTO;
-import com.growing.backend.dto.request.PlantSettingRequest;
 import com.growing.backend.dto.response.PlantSettingResponse;
 import com.growing.backend.entity.Plant;
 import com.growing.backend.repository.PlantRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,15 +40,11 @@ public class PlantService {
         return new PlantSettingResponse.PlantSetting(plant.getPlantId(), plant.getPlantName());
     }
 
-    // 식물 정보 변경 (이름, 성장 일자, 습도 기준치, 조도 기준치)
-    @Transactional
-    public void updatePlant(PlantSettingRequest dto) {
-        Plant plant = plantRepository.findById(dto.getPlantId()).orElseThrow(() -> new RuntimeException("Update Plant Not Found : " + dto.getPlantId()));
-        plant.setPlantName(dto.getPlantName());
+    // 식물 정보 변경
+    public void updatePlantSetting(int plantId, String plantName) {
+        Plant plant = plantRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException( this.getClass().getSimpleName() + "Plant Not Found Id : " + plantId));
 
-        plantInfoService.updatePlantInfo(dto); // 성장 시작 일자
-        plantThresholdService.updatePlantThreshold(dto); // 습도, 조도, 물 기준치, 햇빛 + 식물등 시간 최대치
-
+        plant.setPlantName(plantName);
         plantRepository.save(plant);
     }
 }
