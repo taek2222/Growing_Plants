@@ -32,6 +32,26 @@ public class AlarmService {
         alarmRepository.deleteById(alarmId);
     }
 
+    // 새로운 알람 생성
+    public void addAlarm(String title, String contents) {
+        Alarm alarm = new Alarm();
+
+        alarm.setTitle(title);
+        alarm.setContents(contents);
+        alarm.setReadFlag(false);
+
+        alarmRepository.save(alarm);
+    }
+
+    // 알람 읽음 처리
+    public void setAlarmReadFlag(Long alarmId) {
+        Alarm alarm = alarmRepository.findById(alarmId)
+                .orElseThrow(() -> new EntityNotFoundException(this.getClass().getSimpleName() + "Alarm Not Found Id : " + alarmId));
+
+        alarm.setReadFlag(true);
+        alarmRepository.save(alarm);
+    }
+
     // 알람 정보 DTO 변환
     private AlarmResponse convertToDto(Alarm alarm) {
         AlarmResponse dto = new AlarmResponse();
@@ -43,14 +63,5 @@ public class AlarmService {
         // 읽음 처리
         setAlarmReadFlag(dto.getId());
         return dto;
-    }
-
-    // 알람 읽음 처리
-    public void setAlarmReadFlag(Long alarmId) {
-        Alarm alarm = alarmRepository.findById(alarmId)
-                .orElseThrow(() -> new EntityNotFoundException(this.getClass().getSimpleName() + "Alarm Not Found Id : " + alarmId));
-
-        alarm.setReadFlag(true);
-        alarmRepository.save(alarm);
     }
 }
