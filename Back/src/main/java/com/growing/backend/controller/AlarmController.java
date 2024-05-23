@@ -3,9 +3,9 @@ package com.growing.backend.controller;
 import com.growing.backend.dto.response.AlarmResponse;
 import com.growing.backend.service.AlarmService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,5 +19,16 @@ public class AlarmController {
     @GetMapping
     public List<AlarmResponse> getAlarm() {
         return alarmService.getAlarm();
+    }
+
+    // 알람 삭제
+    @DeleteMapping("/{alarm_id}")
+    public ResponseEntity<Void> deleteAlarm(@PathVariable("alarm_id") Long alarmId) {
+        try {
+            alarmService.deleteAlarm(alarmId);
+        } catch (EmptyResultDataAccessException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
     }
 }

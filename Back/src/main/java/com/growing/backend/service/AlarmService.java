@@ -5,6 +5,7 @@ import com.growing.backend.entity.Alarm;
 import com.growing.backend.repository.AlarmRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,12 @@ public class AlarmService {
         return alarms.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    // 알람 삭제
+    @Transactional
+    public void deleteAlarm(Long alarmId) {
+        alarmRepository.deleteById(alarmId);
     }
 
     // 알람 정보 DTO 변환
