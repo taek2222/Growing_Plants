@@ -3,6 +3,7 @@ package com.growing.backend.service;
 import com.growing.backend.dto.response.AlarmResponse;
 import com.growing.backend.entity.Alarm;
 import com.growing.backend.repository.AlarmRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ public class AlarmService {
     private final AlarmRepository alarmRepository;
 
     // 알람 목록 반환
+    @Transactional
     public List<AlarmResponse> getAlarm() {
         List<Alarm> alarms = alarmRepository.findAll();
 
@@ -37,6 +39,18 @@ public class AlarmService {
         dto.setTitle(alarm.getTitle());
         dto.setContents(alarm.getContents());
         dto.setReadFlag(alarm.isReadFlag());
+
+        // 읽음 처리
+        setAlarmReadFlag(dto.getId());
         return dto;
+    }
+
+    // 알람 읽음 처리
+    public void setAlarmReadFlag(Long alarmId) {
+        Alarm alarm = alarmRepository.findById(alarmId)
+                .orElseThrow(() -> new EntityNotFoundException(this.getClass().getSimpleName() + "Alarm Not Found Id : " + alarmId));
+
+        alarm.setReadFlag(true);
+        alarmRepository.save(alarm);
     }
 }
