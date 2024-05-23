@@ -5,6 +5,7 @@ import com.growing.backend.entity.Plant;
 import com.growing.backend.entity.PlantWaterSupply;
 import com.growing.backend.repository.PlantRepository;
 import com.growing.backend.repository.PlantWaterSupplyRepository;
+import com.growing.backend.service.AlarmService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PlantWaterSupplyService {
     private final PlantWaterSupplyRepository plantWaterSupplyRepository;
+    private final AlarmService alarmService;
     private final PlantRepository plantRepository;
 
     public List<PlantWaterSupplyDTO> getWaterSupplyList(int plantId) {
@@ -60,5 +62,6 @@ public class PlantWaterSupplyService {
         plantWaterSupply.setSupplyTime(localTime);
 
         plantWaterSupplyRepository.save(plantWaterSupply);
+        alarmService.addAlarm("💧물 공급 완료", "물 공급이 성공적으로 완료되었습니다. \n 자세한 내용은 물 공급 기록을 확인해주세요!");
     }
 }

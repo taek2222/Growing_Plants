@@ -15,6 +15,7 @@ public class PlantSettingService {
     private final PlantService plantService;
     private final PlantInfoService plantInfoService;
     private final PlantThresholdService plantThresholdService;
+    private final AlarmService alarmService;
 
     // 식물 설정 정보 요청
     public PlantSettingResponse getPlantSetting(int plantId) {
@@ -33,5 +34,6 @@ public class PlantSettingService {
         plantService.updatePlantSetting(plantId, dto.getPlantName()); // 식물 아이디, 식물 이름
         plantInfoService.updatePlantInfoSetting(plantId, dto.getDate()); // 성장 일자
         plantThresholdService.updatePlantThresholdSetting(plantId, dto.getLightThreshold(), dto.getSoilThreshold(), dto.getWaterThreshold(), dto.getSunLightMax()); // 습도, 조도, 물 기준치, 햇빛 + 식물등 시간 최대치
+        alarmService.addAlarm("🌱 식물 정보 변경 완료", "성공적으로 식물 정보가 변경 되었습니다. \n 새로고침(F5) 후 확인해주세요!");
     }
 }
