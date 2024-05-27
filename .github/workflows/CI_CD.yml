@@ -33,7 +33,7 @@ jobs:
 
       - name: Build Docker
         run: |
-          ls -l
+          cd Back
           docker build --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/growing_plants .
       - name: Push Docker
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/growing_plants:latest
