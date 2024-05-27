@@ -1,5 +1,5 @@
 FROM amazoncorretto:11-alpine-jdk
-ARG JAR_FILE=Back/Build/*SNAPSHOT.jar
+ARG JAR_FILE=Back/build/libs/*SNAPSHOT.jar
 ARG PROFILES
 ARG ENV
 COPY ${JAR_FILE} app.jar
