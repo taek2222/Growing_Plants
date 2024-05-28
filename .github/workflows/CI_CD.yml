@@ -23,7 +23,7 @@ jobs:
           echo ${{secrets.APPLICATION_COMMON}} | base64 --decode > ./Back/src/main/resources/application-common.properties
           cat ./Back/src/main/resources/application-common.properties
           chmod +x ./Back/gradlew
-          cd Back && ./gradlew clean build
+          cd Back && ./gradlew clean build --refresh-dependencies
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
