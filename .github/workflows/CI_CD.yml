@@ -23,8 +23,9 @@ jobs:
       - name: Build with Gradle
         run: |
           echo ${{secrets.APPLICATION_COMMON}} | base64 --decode > ./Back/src/main/resources/application-common.properties
+          cat ./Back/src/main/resources/application-common.properties
           chmod +x ./Back/gradlew
-          cd Back && ./gradlew clean build -x test
+          cd Back && ./gradlew clean build
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -79,7 +80,7 @@ jobs:
         uses: jtalk/url-health-check-action@v3
         with:
           url: http://${{ secrets.SERVER_IP }}:${{env.STOPPED_PORT}}/env
-          max-attempts: 3
+          max-attempts: 5
           retry-delay: 10s
 
       - name: Change nginx upstream

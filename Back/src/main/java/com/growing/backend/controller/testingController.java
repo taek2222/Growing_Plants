@@ -25,6 +25,7 @@ public class testingController {
         responseDate.put("ServerName", serverName);
         responseDate.put("ServerPort", serverPort);
         responseDate.put("ServerEnv", env);
+        responseDate.put("sss", env);
 
         return ResponseEntity.ok(responseDate);
     }
