@@ -23,7 +23,7 @@ jobs:
       - name: Build with Gradle
         run: |
           echo ${{secrets.APPLICATION_COMMON}} | base64 --decode > ./Back/src/main/resources/application-common.properties
-          cat ./Back/src/main/application-common.properties
+          cat ./Back/src/main/resources/application-common.properties
           chmod +x ./Back/gradlew
           cd Back && ./gradlew clean build -x test
 
