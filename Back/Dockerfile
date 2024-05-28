@@ -1,5 +1,4 @@
 FROM amazoncorretto:11-alpine-jdk
-RUN ls -la 
 ARG JAR_FILE=build/libs/*SNAPSHOT.jar
 ARG PROFILES
 ARG ENV
