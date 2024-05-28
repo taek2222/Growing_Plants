@@ -9,8 +9,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @RestController
-public class testingController {
-
+public class CICDController {
 
     @Value("${server.env}")
     private String env;
@@ -19,14 +18,12 @@ public class testingController {
     @Value("${serverName}")
     private String serverName;
 
-    @GetMapping("/test")
-    public ResponseEntity<?> test() {
+    @GetMapping("/change-test")
+    public ResponseEntity<?> changeTest() {
         Map<String, String> responseDate = new TreeMap<>();
         responseDate.put("ServerName", serverName);
         responseDate.put("ServerPort", serverPort);
         responseDate.put("ServerEnv", env);
-        responseDate.put("sss", env);
-
         return ResponseEntity.ok(responseDate);
     }
 
