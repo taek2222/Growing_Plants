@@ -104,9 +104,11 @@ public class PlantThresholdService {
                     sunlightDuration += countTime; // 햇빛 시간 카운트 (분)
             }
 
-            // 식물 전등 상태 업데이트
-            if (plantInfo.isLightStatus() != lightStatus[i])
+            // 식물 전등 상태 업데이트 및 알람 생성
+            if (plantInfo.isLightStatus() != lightStatus[i]) {
                 plantInfo.setLightStatus(lightStatus[i]);
+                alarmService.addAlarm("💡 "+plantInfo.getPlantId() + "번째 식물의 전등 상태 변화", "식물의 전등 상태가 변화되었습니다. \n [LED 상태] 및 장치의 실제 상태를 확인해주세요!");
+            }
 
             // 식물 데이터 설정
             plantInfo.setSunlightDuration(sunlightDuration);
