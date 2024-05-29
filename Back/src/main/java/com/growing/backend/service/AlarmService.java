@@ -75,4 +75,9 @@ public class AlarmService {
         setAlarmReadFlag(dto.getId());
         return dto;
     }
+
+    // 새로운 알람 확인
+    public boolean isNewAlarm() {
+        return alarmRepository.existsByReadFlag(false);
+    }
 }

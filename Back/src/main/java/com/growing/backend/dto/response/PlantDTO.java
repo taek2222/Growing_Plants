@@ -20,4 +20,5 @@ public class PlantDTO {
     private double waterThreshold; // 물 기준치
     private int sunlightDuration; // 햇빛 비춘 시간
     private int growLightDuration; // 식물등 비춘 시간
+    private boolean newAlarm; // 새로운 알람
 }
