@@ -1,5 +1,4 @@
 package com.growing.backend.service.plant;
-import com.growing.backend.dto.request.PlantSettingRequest;
 import com.growing.backend.dto.response.PlantDTO;
 import com.growing.backend.dto.response.PlantSettingResponse;
 import com.growing.backend.entity.Plant;
@@ -71,13 +70,20 @@ public class PlantThresholdService {
             PlantThreshold plantThreshold = plantThresholdRepository.findById(i+1)
                     .orElseThrow(() -> new EntityNotFoundException("[PlantStateSoilService] PlantThreshold Not Found"));
 
+
             // 식물 조도 기준치, 식물등 시간, 햇빛 시간 변수화
             double lightThreshold = plantThreshold.getLightThreshold();
             int sunlightDuration = plantInfo.getSunlightDuration();
             int growLightDuration = plantInfo.getGrowLightDuration();
 
+            // 식물 햇빛 + 식물등 시간 체크 후 깃발 수정 및 알람 생성
+            if(plantThreshold.getSunLightMax() <= sunlightDuration + growLightDuration && !plantThreshold.isSunLightFlag()) {
+                plantThreshold.setSunLightFlag(true);
+                plantThresholdRepository.save(plantThreshold);
+                alarmService.addAlarm("🔆 " + plantInfo.getPlantId() + "번째 식물의 영양 섭취 완료", "햇빛 영양분 공급이 완료되었습니다. \n 자세한 내용은 [오늘의 햇빛]을 참고해주세요!");
+            }
             // 식물 시간 최대 카운트
-            if(plantThreshold.getSunLightMax() <= sunlightDuration + growLightDuration)
+            if(plantThreshold.isSunLightFlag())
                 countTime = 0;
             else countTime = 1;
 
@@ -139,12 +145,15 @@ public class PlantThresholdService {
         plantThresholdRepository.save(plantThreshold);
     }
 
-    // 식물 물 공급 알람 깃발 초기화 (하루 1번)
+    // 식물 [물 알람, 햇빛 + 식물등 시간 최대] 깃발 초기화 (하루 1번)
     @Scheduled(cron = "0 0 0 * * ?")
     public void resetWaterFlag() {
-        PlantThreshold plantThreshold = plantThresholdRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("[PlantStateSoilService] PlantThreshold Not Found"));
+        List<PlantThreshold> listPlantThreshold = plantThresholdRepository.findAll();
 
-        plantThreshold.setWaterFlag(false);
-        plantThresholdRepository.save(plantThreshold);
+        for (PlantThreshold plantThreshold : listPlantThreshold) {
+            plantThreshold.setSunLightFlag(false);
+            plantThreshold.setWaterFlag(false);
+            plantThresholdRepository.save(plantThreshold);
+        }
     }
 }
