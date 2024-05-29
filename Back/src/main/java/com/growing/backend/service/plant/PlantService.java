@@ -4,6 +4,7 @@ import com.growing.backend.dto.response.PlantDTO;
 import com.growing.backend.dto.response.PlantSettingResponse;
 import com.growing.backend.entity.Plant;
 import com.growing.backend.repository.PlantRepository;
+import com.growing.backend.service.AlarmService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class PlantService {
     private final PlantRepository plantRepository;
     private final PlantInfoService plantInfoService;
     private final PlantThresholdService plantThresholdService;
+    private final AlarmService alarmService;
 
     // 식물 데이터 (ID, 이름, 사진, 성장 일자, 조도, 습도, 햇빛, 식물등, 전등 상태) 반환
     public List<PlantDTO> getPlant() {
@@ -29,6 +31,7 @@ public class PlantService {
             plantDTO.setPlantName(plant.getPlantName());
             plantInfoService.getPlantInfo(plantDTO, plant);
             plantThresholdService.getPlantThreshold(plantDTO, plant);
+            plantDTO.setNewAlarm(alarmService.isNewAlarm());
 
             return plantDTO;
         }).collect(Collectors.toList());
