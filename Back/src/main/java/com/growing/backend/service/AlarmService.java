@@ -8,6 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,9 +39,13 @@ public class AlarmService {
     // 새로운 알람 생성
     public void addAlarm(String title, String contents) {
         Alarm alarm = new Alarm();
+        LocalDate nowDate = LocalDate.now(ZoneId.of("Asia/Seoul"));
+        LocalTime nowTime = LocalTime.now(ZoneId.of("Asia/Seoul")).truncatedTo(ChronoUnit.MINUTES);
 
         alarm.setTitle(title);
         alarm.setContents(contents);
+        alarm.setAlarmDate(nowDate);
+        alarm.setAlarmTime(nowTime);
         alarm.setReadFlag(false);
 
         alarmRepository.save(alarm);
@@ -58,6 +66,8 @@ public class AlarmService {
         dto.setId(alarm.getId());
         dto.setTitle(alarm.getTitle());
         dto.setContents(alarm.getContents());
+        dto.setAlarmDate(alarm.getAlarmDate());
+        dto.setAlarmTime(alarm.getAlarmTime());
         dto.setReadFlag(alarm.isReadFlag());
 
         // 읽음 처리
