@@ -1,7 +1,7 @@
 package com.growing.backend.controller;
 
 import com.growing.backend.dto.response.AlarmResponse;
-import com.growing.backend.service.AlarmService;
+import com.growing.backend.service.plant.AlarmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;

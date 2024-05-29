@@ -5,7 +5,6 @@ import com.growing.backend.entity.Plant;
 import com.growing.backend.entity.PlantWaterSupply;
 import com.growing.backend.repository.PlantRepository;
 import com.growing.backend.repository.PlantWaterSupplyRepository;
-import com.growing.backend.service.AlarmService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
