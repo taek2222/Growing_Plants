@@ -4,6 +4,8 @@ import com.google.gson.*;
 import com.growing.backend.entity.WeatherData;
 import com.growing.backend.repository.WeatherDataRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ import java.time.format.DateTimeFormatter;
 public class WeatherDataService {
     private final WeatherDataRepository weatherDataRepository;
     private final WeatherTemperatureService weatherTemperatureService;
+    private static final Logger logger = LoggerFactory.getLogger(WeatherDataService.class);
 
     // 서비스 키
     @Value("${serviceKey}")
@@ -35,7 +38,7 @@ public class WeatherDataService {
     static String baseTime;
 
     @Transactional
-    @Scheduled(cron = "0 0 */1 * * ?")
+    @Scheduled(cron = "0 15 * * * ?") // 매시간 15분 작동
     public void getWeatherData() throws IOException {
         // baseDate, baseTime 시간, 날짜 설정
         setBaseTimeDate();
@@ -79,16 +82,13 @@ public class WeatherDataService {
         int hour = now.getHour();
         int minute = now.getMinute();
 
-        // 시간 분을 기점으로 localTime 변수 및 [2시 10분] 기점 생성
+        // 시간 분을 기점으로 localTime 변수 및 2시 기점 생성
         LocalTime localTime = LocalTime.of(hour, minute);
-        LocalTime standardTime = LocalTime.of(2, 10);
+        LocalTime standardTime = LocalTime.of(2, 0);
 
-        // 시간이 [2시 10분]을 넘거나 혹은 같으면 True 아니면 False
-        if(localTime.isAfter(standardTime) || localTime.equals(standardTime)) {
-            if(minute >= 10)
-                hour++;
-
-            int settingHour = (hour/3) * 3 - 1;
+        // 시간이 2시를 넘는지 체크
+        if(localTime.isAfter(standardTime)) {
+            int settingHour = ((hour+1)/3) * 3 - 1;
             baseTime = String.format("%02d00", settingHour);
             baseDate = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         }
@@ -96,6 +96,7 @@ public class WeatherDataService {
             baseTime = "2300";
             baseDate = now.minusDays(1).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         }
+        logger.info("[setBaseTimeDate] 기상청 baseTime, Date 확인 : {} {}", baseDate, baseTime);
     }
 
     // 파싱 데이터 DB 삽입 코드
