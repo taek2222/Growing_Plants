@@ -11,6 +11,7 @@ import com.growing.backend.repository.PlantThresholdRepository;
 import com.growing.backend.repository.PlantWaterRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class PlantThresholdService {
     private final PlantThresholdRepository plantThresholdRepository;
     private final PlantWaterRepository plantWaterRepository;
     private final PlantInfoRepository plantInfoRepository;
+    private final AlarmService alarmService;
 
     // 식물 데이터 (기준치) 반환
     public void getPlantThreshold(PlantDTO plantDTO, Plant plant) {
@@ -110,13 +112,14 @@ public class PlantThresholdService {
     }
 
     // 물통 수위 센서 값 체크
-    void checkPlantStateWaterAmount(List<String> response, int waterAmount) {
+    void checkPlantStateWaterAmount(int waterAmount) {
         PlantThreshold plantThreshold = plantThresholdRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("[PlantStateSoilService] PlantThreshold Not Found"));
 
-        if(waterAmount < plantThreshold.getWaterThreshold()) {
-            // 알림 전달 추가 해야함.
+        if(waterAmount < plantThreshold.getWaterThreshold() && !plantThreshold.isWaterFlag()) {
+            alarmService.addAlarm("🪣 공급 물 부족 경고", "설정하신 물통 기준치 이하를 도달했습니다. \n 물통에 물을 공급해주세요.");
+            plantThreshold.setWaterFlag(true);
+            plantThresholdRepository.save(plantThreshold);
         }
-
     }
 
     // 식물 설정 정보 요청
@@ -133,6 +136,15 @@ public class PlantThresholdService {
         plantThreshold.setSoilThreshold(soilThreshold);
         plantThreshold.setWaterThreshold(waterThreshold);
         plantThreshold.setSunLightMax(sunLightMax * 60); // 시간을 분으로 치환 * 60
+        plantThresholdRepository.save(plantThreshold);
+    }
+
+    // 식물 물 공급 알람 깃발 초기화 (하루 1번)
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void resetWaterFlag() {
+        PlantThreshold plantThreshold = plantThresholdRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("[PlantStateSoilService] PlantThreshold Not Found"));
+
+        plantThreshold.setWaterFlag(false);
         plantThresholdRepository.save(plantThreshold);
     }
 }

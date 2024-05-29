@@ -66,7 +66,7 @@ public class PlantStateService {
         plantThresholdService.checkLight(response, DTO.getLightIntensity(), lightStatus);
 
         // 물통 값 체크
-        // plantThresholdService.checkPlantStateWaterAmount(response, DTO.getWaterAmount());
+        plantThresholdService.checkPlantStateWaterAmount(DTO.getWaterAmount());
 
         savePlantState(DTO);
 

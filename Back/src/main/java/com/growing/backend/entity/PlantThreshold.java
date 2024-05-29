@@ -24,6 +24,9 @@ public class PlantThreshold {
     @Column(name = "WATER_THRESHOLD")
     private double waterThreshold; // 물 기준치
 
+    @Column(name = "WATER_FLAG")
+    private boolean waterFlag; // 물 알람 Flag [00:00 시 초기화]
+
     @Column(name = "SUN_LIGHT_MAX")
     private int sunLightMax; // 햇빛 + 식물등 시간 최대치
 
