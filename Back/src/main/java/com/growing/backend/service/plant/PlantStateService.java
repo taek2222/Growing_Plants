@@ -56,7 +56,7 @@ public class PlantStateService {
         }
 
         // 식물등 상태 코드, 토양 습도 배열로 저장
-        boolean[] lightStatus = new boolean[] {DTO.isLightStatus2(), DTO.isLightStatus2()};
+        boolean[] lightStatus = new boolean[] {DTO.isLightStatus1(), DTO.isLightStatus2()};
         double[] soilStatus = new double[] {DTO.getSoilMoisture1(), DTO.getSoilMoisture2()};
 
         // 습도 센서 값 체크
@@ -66,7 +66,7 @@ public class PlantStateService {
         plantThresholdService.checkLight(response, DTO.getLightIntensity(), lightStatus);
 
         // 물통 값 체크
-        // plantThresholdService.checkPlantStateWaterAmount(response, DTO.getWaterAmount());
+        plantThresholdService.checkPlantStateWaterAmount(DTO.getWaterAmount());
 
         savePlantState(DTO);
 

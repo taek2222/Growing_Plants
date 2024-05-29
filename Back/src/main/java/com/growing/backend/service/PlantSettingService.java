@@ -2,6 +2,7 @@ package com.growing.backend.service;
 
 import com.growing.backend.dto.request.PlantSettingRequest;
 import com.growing.backend.dto.response.PlantSettingResponse;
+import com.growing.backend.service.plant.AlarmService;
 import com.growing.backend.service.plant.PlantInfoService;
 import com.growing.backend.service.plant.PlantService;
 import com.growing.backend.service.plant.PlantThresholdService;
