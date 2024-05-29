@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -67,7 +68,7 @@ public class AlarmService {
         dto.setTitle(alarm.getTitle());
         dto.setContents(alarm.getContents());
         dto.setAlarmDate(alarm.getAlarmDate());
-        dto.setAlarmTime(alarm.getAlarmTime());
+        dto.setAlarmTime(alarm.getAlarmTime().format(DateTimeFormatter.ofPattern("HH:mm")));
         dto.setReadFlag(alarm.isReadFlag());
 
         // 읽음 처리
