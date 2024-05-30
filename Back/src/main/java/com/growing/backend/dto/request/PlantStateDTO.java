@@ -4,6 +4,7 @@ import lombok.*;
 
 @Getter
 @Setter
+@ToString
 // 식물 센서 값 POST(Software->Back) 요청 DTO
 public class PlantStateDTO {
     private double lightIntensity; // 조도
