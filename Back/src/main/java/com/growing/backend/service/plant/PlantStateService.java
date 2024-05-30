@@ -44,14 +44,13 @@ public class PlantStateService {
 
         // NULL 및 쓰레기 값 체크
         if (DTO == null ||
-                DTO.getLightIntensity() < 0 || DTO.getLightIntensity() > 100 ||
-                DTO.getAirTemperature() < 0 || DTO.getAirTemperature() > 100 ||
-                DTO.getAirHumidity() < 0 || DTO.getAirHumidity() > 100 ||
-                DTO.getSoilMoisture1() < 0 || DTO.getSoilMoisture1() > 100 ||
-                DTO.getSoilMoisture2() < 0 || DTO.getSoilMoisture2() > 100 ||
-                DTO.getWaterAmount() < 0 || DTO.getWaterAmount() > 100) {
+                DTO.getLightIntensity() <= 0 || DTO.getLightIntensity() >= 100 ||
+                DTO.getAirTemperature() <= 0 || DTO.getAirTemperature() >= 100 ||
+                DTO.getAirHumidity() <= 0 || DTO.getAirHumidity() >= 100 ||
+                DTO.getSoilMoisture1() <= 0 || DTO.getSoilMoisture1() >= 100 ||
+                DTO.getSoilMoisture2() <= 0 || DTO.getSoilMoisture2() >= 100 ||
+                DTO.getWaterAmount() <= 0 || DTO.getWaterAmount() >= 100) {
             response.add("1");
-            response.add("200");
             return response;
         }
 
