@@ -31,4 +31,15 @@ public class AlarmController {
         }
         return ResponseEntity.noContent().build();
     }
+
+    // 알람 전체 삭제
+    @DeleteMapping("/all")
+    public ResponseEntity<Void> deleteAllAlarm() {
+        try {
+            alarmService.deleteAllAlarm();
+        } catch (EmptyResultDataAccessException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
 }
