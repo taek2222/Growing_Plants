@@ -27,8 +27,8 @@ public class PlantThresholdService {
     public void getPlantThreshold(PlantDTO plantDTO, Plant plant) {
         PlantThreshold plantThreshold = plantThresholdRepository.findById(plant.getPlantId())
                 .orElseThrow(() -> new RuntimeException("[PlantThresholdService] PlantThreshold Not Found : " + plant.getPlantId()));
-        plantDTO.setLightThreshold(plantThreshold.getLightThreshold());
-        plantDTO.setSoilThreshold(plantThreshold.getSoilThreshold());
+        plantDTO.setLightThreshold(plantThreshold.getLightThreshold() / 60);
+        plantDTO.setSoilThreshold(plantThreshold.getSoilThreshold() / 60);
         plantDTO.setWaterThreshold(plantThreshold.getWaterThreshold());
     }
 
