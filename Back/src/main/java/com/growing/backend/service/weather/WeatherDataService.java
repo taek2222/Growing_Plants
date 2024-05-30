@@ -63,6 +63,9 @@ public class WeatherDataService {
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/json");
 
+        // 테스트 출력
+        logger.info("[setBaseTimeDate] 기상청 URL : {}", conn.getURL());
+
         // JSON 데이터 버퍼 저장
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String content = br.readLine();
@@ -82,13 +85,13 @@ public class WeatherDataService {
         int hour = now.getHour();
         int minute = now.getMinute();
 
-        // 시간 분을 기점으로 localTime 변수 및 2시 기점 생성
+        // 시간 분을 기점으로 localTime 변수 및 3시 기점 생성
         LocalTime localTime = LocalTime.of(hour, minute);
-        LocalTime standardTime = LocalTime.of(2, 0);
+        LocalTime standardTime = LocalTime.of(3, 0);
 
-        // 시간이 2시를 넘는지 체크
+        // 시간이 3시를 넘는지 체크
         if(localTime.isAfter(standardTime)) {
-            int settingHour = ((hour+1)/3) * 3 - 1;
+            int settingHour = (hour/3) * 3 - 1;
             baseTime = String.format("%02d00", settingHour);
             baseDate = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         }
