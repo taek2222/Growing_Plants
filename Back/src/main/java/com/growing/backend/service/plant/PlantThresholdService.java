@@ -85,7 +85,7 @@ public class PlantThresholdService {
             // 식물 시간 최대 카운트
             if(plantThreshold.isSunLightFlag())
                 countTime = 0;
-            else countTime = 1;
+            else countTime = 60;
 
             // 조도 센서 값이 기준치 이하일 경우
             if (light <= lightThreshold) {
@@ -133,7 +133,7 @@ public class PlantThresholdService {
     // 식물 설정 정보 요청
     public PlantSettingResponse.PlantThresholdSetting getPlantThresholdSetting(int plantId) {
         PlantThreshold plantThreshold = plantThresholdRepository.findById(plantId).orElseThrow(() -> new EntityNotFoundException(this.getClass().getSimpleName() + " PlantThreshold Not Found Id : " + plantId));
-        return new PlantSettingResponse.PlantThresholdSetting(plantThreshold.getLightThreshold(), plantThreshold.getSoilThreshold(), plantThreshold.getWaterThreshold(), plantThreshold.getSunLightMax() / 60);
+        return new PlantSettingResponse.PlantThresholdSetting(plantThreshold.getLightThreshold(), plantThreshold.getSoilThreshold(), plantThreshold.getWaterThreshold(), plantThreshold.getSunLightMax() / 3600);
     }
 
     // 식물 정보 변경
@@ -143,7 +143,7 @@ public class PlantThresholdService {
         plantThreshold.setLightThreshold(lightThreshold);
         plantThreshold.setSoilThreshold(soilThreshold);
         plantThreshold.setWaterThreshold(waterThreshold);
-        plantThreshold.setSunLightMax(sunLightMax * 60); // 시간을 분으로 치환 * 60
+        plantThreshold.setSunLightMax(sunLightMax * 3600); // 시간을 분으로 치환 * 60
         plantThresholdRepository.save(plantThreshold);
     }
 

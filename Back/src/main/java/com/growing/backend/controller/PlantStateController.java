@@ -15,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PlantStateController {
     private final PlantStateService plantStateService;
-    private static final Logger logger = LoggerFactory.getLogger(PlantStateController.class);
 
     // 식물 센서 측정 값 요청
     @GetMapping("/state")
@@ -27,7 +26,6 @@ public class PlantStateController {
     // 조도 | 대기 온도 | 대기 습도 | 토양 습도 (식물 1) | 토양 습도 (식물 2) | 식물등 상태 (식물 1) | 식물등 상태 (식물 2)
     @PostMapping("/state")
     public List<String> postPlantState(@RequestBody PlantStateDTO plantStateRequestDTO) {
-        logger.info("Received plant state: {}", plantStateRequestDTO);
         return plantStateService.addPlantState(plantStateRequestDTO);
     }
 }
