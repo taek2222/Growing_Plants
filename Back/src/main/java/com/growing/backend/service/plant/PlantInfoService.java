@@ -29,8 +29,8 @@ public class PlantInfoService {
         plantDTO.setImage(plantInfo.getImage());
         plantDTO.setDate(getPlantDate(plantInfo.getDate()));
         plantDTO.setLightStatus(plantInfo.isLightStatus());
-        plantDTO.setSunlightDuration(plantInfo.getSunlightDuration());
-        plantDTO.setGrowLightDuration(plantInfo.getGrowLightDuration());
+        plantDTO.setSunlightDuration(plantInfo.getSunlightDuration() / 60);
+        plantDTO.setGrowLightDuration(plantInfo.getGrowLightDuration() / 60);
     }
 
     // 식물 성장 일자 계산
