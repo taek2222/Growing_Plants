@@ -1,7 +1,9 @@
 package com.growing.backend.service.plant;
 
 import com.growing.backend.dto.request.PlantStateDTO;
+import com.growing.backend.entity.PlantInfo;
 import com.growing.backend.entity.PlantState;
+import com.growing.backend.repository.PlantInfoRepository;
 import com.growing.backend.repository.PlantStateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -20,20 +22,24 @@ import java.util.List;
 public class PlantStateService {
     private final PlantStateRepository plantStateRepository;
     private final PlantThresholdService plantThresholdService;
-
+    private final PlantInfoRepository plantInfoRepository;
     // 식물 센서 측정 값 전달 (대기 온도, 대기 습도)
     public PlantStateDTO getPlantState() {
 
         Pageable topOne = PageRequest.of(0, 1);
         PlantState latestPlantState = plantStateRepository.findAllByOrderByDateDescTimeDesc(topOne).get(0);
+        PlantInfo plantInfo = plantInfoRepository.findById(1).orElseThrow();
+        PlantInfo plantInfo1 = plantInfoRepository.findById(2).orElseThrow();
 
         PlantStateDTO dto = new PlantStateDTO();
         dto.setLightIntensity(latestPlantState.getLightIntensity());
         dto.setAirTemperature(latestPlantState.getAirTemperature());
         dto.setAirHumidity(latestPlantState.getAirHumidity());
+        dto.setWaterAmount(latestPlantState.getWaterAmount());
         dto.setSoilMoisture1(latestPlantState.getSoilMoisture1());
         dto.setSoilMoisture2(latestPlantState.getSoilMoisture2());
-        dto.setWaterAmount(latestPlantState.getWaterAmount());
+        dto.setLightStatus1(plantInfo.isLightStatus());
+        dto.setLightStatus2(plantInfo1.isLightStatus());
 
         return dto;
     }
