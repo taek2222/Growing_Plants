@@ -82,6 +82,7 @@ public class PlantThresholdService {
                 plantThresholdRepository.save(plantThreshold);
                 alarmService.addAlarm("🔆 " + plantInfo.getPlantId() + "번째 식물의 영양 섭취 완료", "햇빛 영양분 공급이 완료되었습니다. \n 자세한 내용은 [오늘의 햇빛]을 참고해주세요!");
             }
+
             // 식물 시간 최대 카운트
             if(plantThreshold.isSunLightFlag())
                 countTime = 0;
@@ -148,7 +149,7 @@ public class PlantThresholdService {
     }
 
     // 식물 [물 알람, 햇빛 + 식물등 시간 최대] 깃발 초기화 (하루 1번)
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0 6 * * ?")
     public void resetWaterFlag() {
         List<PlantThreshold> listPlantThreshold = plantThresholdRepository.findAll();
 
