@@ -44,24 +44,7 @@ public class ChatGPTService {
         return message;
     }
 
-    private String createChatGPTMessage(String plantName,String gptMessage) {
-        // 전달 받은 값 분리 [ '1' 조도 기준치, '2' 토양 습도 기준치, '3' 햇빛 식물등 최대 시간 ]
-        String[] value = gptMessage.split(",");
-
-        if(value.length != 3)
-            return null;
-
-        return String.format("""
-                [🤖 AI 추천 설정] \
-
-                 현재 [%s] 의 식물 추천 기준치는 다음과 같습니다.\s
-                 조도 기준치 : %s\s
-                 수분 기준치 : %s\s
-                 최대 일조량 : %sH\s
-                 ⚠️[주의] 위 내용은 AI 분석 기반 결과로 나온 값이며,\s
-                 식물 배치 및 주변적 요소에 따라 변동될 수 있습니다.""", plantName, value[0], value[1], value[2]);
-    }
-
+    // 식물한테 물어보는 데이터 온도 + 습도 개선해야함
     public ChatGPTRequest createChatGPTRequest(String model, String plantName) {
         String chat = "GPT. 식물과 관련된 박사가 되어서 답변 부탁할게.\n" +
                 "\n" +
@@ -91,5 +74,23 @@ public class ChatGPTService {
                 "절대로 위와 같이만 답변 해줘.";
 
         return new ChatGPTRequest(model, chat);
+    }
+
+    private String createChatGPTMessage(String plantName,String gptMessage) {
+        // 전달 받은 값 분리 [ '1' 조도 기준치, '2' 토양 습도 기준치, '3' 햇빛 식물등 최대 시간 ]
+        String[] value = gptMessage.split(",");
+
+        if(value.length != 3)
+            return null;
+
+        return String.format("""
+                [🤖 AI 추천 설정] \
+
+                 현재 [%s] 의 식물 추천 기준치는 다음과 같습니다.\s
+                 조도 기준치 : %s\s
+                 수분 기준치 : %s\s
+                 최대 일조량 : %sH\s
+                 ⚠️[주의] 위 내용은 AI 분석 기반 결과로 나온 값이며,\s
+                 식물 배치 및 주변적 요소에 따라 변동될 수 있습니다.""", plantName, value[0], value[1], value[2]);
     }
 }
