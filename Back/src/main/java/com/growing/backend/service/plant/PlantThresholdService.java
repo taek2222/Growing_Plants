@@ -86,7 +86,7 @@ public class PlantThresholdService {
             // 식물 시간 최대 카운트
             if(plantThreshold.isSunLightFlag())
                 countTime = 0;
-            else countTime = 60;
+            else countTime = 10;
 
             // 조도 센서 값이 기준치 이하일 경우
             if (light <= lightThreshold) {
