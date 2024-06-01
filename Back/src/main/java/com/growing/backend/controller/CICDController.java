@@ -24,6 +24,7 @@ public class CICDController {
         responseDate.put("ServerName", serverName);
         responseDate.put("ServerPort", serverPort);
         responseDate.put("ServerEnv", env);
+        responseDate.put("Port", serverPort);
         return ResponseEntity.ok(responseDate);
     }
 
