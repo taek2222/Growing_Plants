@@ -10,7 +10,6 @@ public class OpenAiConfig {
     @Value("${openai.api.key}")
     private String openAiKey;
 
-
     @Bean
     public WebClient webClient() {
         return WebClient.builder()

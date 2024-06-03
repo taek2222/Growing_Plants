@@ -31,7 +31,7 @@ public class PlantThreshold {
     private int sunLightMax; // 햇빛 + 식물등 시간 최대치
 
     @Column(name = "SUN_LIGHT_FLAG")
-    private boolean sunLightFlag; // 햇빛 + 식물등 시간 최대 깃발 [00:00시 초기화]
+    private boolean sunLightFlag; // 햇빛 + 식물등 시간 최대 깃발 [06:00시 초기화]
 
     @OneToOne
     @MapsId

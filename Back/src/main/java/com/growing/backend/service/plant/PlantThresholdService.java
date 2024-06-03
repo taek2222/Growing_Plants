@@ -89,7 +89,12 @@ public class PlantThresholdService {
             else countTime = 10;
 
             // 조도 센서 값이 기준치 이하일 경우
-            if (light <= lightThreshold) {
+            // 깃발 여부 확인 후 작동
+            if (plantThreshold.isSunLightFlag()) {
+                if (lightStatus[0]) response.add("4-1");
+                if (lightStatus[1]) response.add("4-2");
+            }
+            else if (light <= lightThreshold) {
                 // 센서 기준치 이하 & 센서가 이미 켜져 있는 경우
                 if (lightStatus[i])
                     growLightDuration += countTime; // 식물등 시간 카운트 (분)
