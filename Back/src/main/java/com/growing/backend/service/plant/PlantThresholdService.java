@@ -150,6 +150,7 @@ public class PlantThresholdService {
         plantThreshold.setSoilThreshold(soilThreshold);
         plantThreshold.setWaterThreshold(waterThreshold);
         plantThreshold.setSunLightMax(sunLightMax * 3600); // 시간을 분으로 치환 * 60
+        plantThreshold.setSunLightFlag(false);
         plantThresholdRepository.save(plantThreshold);
     }
 
