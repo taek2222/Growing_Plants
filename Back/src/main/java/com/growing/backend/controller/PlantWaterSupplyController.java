@@ -21,6 +21,13 @@ public class PlantWaterSupplyController {
         return ResponseEntity.ok(plantWaterSupplyDTOS);
     }
 
+    // 물 Today 공급 횟수 요청
+    @GetMapping("/today/{plantId}")
+    public ResponseEntity<Integer> getWaterSupplyToday(@PathVariable("plantId") int plantId) {
+        Integer number = plantWaterSupplyService.getWaterSupplyToday(plantId);
+        return ResponseEntity.ok(number);
+    }
+
     // 물 공급 리스트 저장
     @PostMapping("/{plantId}")
     public ResponseEntity<Void> addWaterSupplyList(@PathVariable("plantId") int plantId) {

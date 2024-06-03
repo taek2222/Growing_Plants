@@ -63,4 +63,12 @@ public class PlantWaterSupplyService {
         plantWaterSupplyRepository.save(plantWaterSupply);
         alarmService.addAlarm("💧물 공급 완료", "물 공급이 성공적으로 완료되었습니다. \n 자세한 내용은 물 공급 기록을 확인해주세요!");
     }
+
+    // 물 Today 공급 횟수 요청
+    public Integer getWaterSupplyToday(int plantId) {
+        Plant plant = plantRepository.findById(plantId)
+                .orElseThrow(() -> new EntityNotFoundException("[PlantWaterSupplyService] Plant Not Found Id : " + plantId));
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
+        return plantWaterSupplyRepository.countByPlantAndSupplyDate(plant, today);
+    }
 }
