@@ -47,7 +47,7 @@ public class PlantInfoService {
 
     // 식물 습득 정보 데이터 초기화 [(햇빛, 식물등 시간)]
     @Transactional
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0 6 * * ?")
     public void resetPlantInfo() {
         List<PlantInfo> plantInfoList = plantInfoRepository.findAll();
 
