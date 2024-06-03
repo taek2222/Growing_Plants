@@ -125,8 +125,8 @@ public class WeatherDataService {
         String hour = localTime.format(DateTimeFormatter.ofPattern("HH00"));
 
         // 최고, 최저 온도 기록
-        if (hour.equals("0200"))
-            weatherTemperatureService.setWeatherTemperature(items);
+//        if (hour.equals("0200"))
+        weatherTemperatureService.setWeatherTemperature(items);
 
         // 파싱 데이터 탐색
         for (JsonElement itemElement : items) {
