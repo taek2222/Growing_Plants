@@ -38,11 +38,19 @@
 
 <br>
 
-## 🔨 프로젝트 화면 및 기능 설명 
+## 🔨 프로젝트 화면 및 기능 설명
+- 물 수동 / 자동 공급 + 물 공급 기록 (영상) - 실물
+- 식물등 자동 ON / OFF + ON,OFF 상태 변경 (영상) - 실물
+- 알람 생성 및 NEW, 읽음 처리 (영상)
+- 일기 예보 및 기상 정보 변경 (영상)
+- 실시간 모니터링 값 변경 (영상)
+- 설정 변경으로 식물 정보 변경 (영상)
+
+<br>
 
 ## 🔗 시스템 구조도
 <p align="center">
-  <img src="https://github.com/taek2222/Growing_Plants/assets/118153233/13998143-18f0-49fb-8cc9-66955b48cbcd" alt="아키텍처">
+  <img src="https://github.com/taek2222/Growing_Plants/assets/118153233/513f975b-8d2f-4afe-8ba5-e11af05555f2" alt="아키텍처">
 </p>
 
 <br>
