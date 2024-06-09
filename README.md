@@ -45,3 +45,8 @@
 ## 🔗 시스템 구조도
 
 ## ⚒️ 기술 스택
+<p align="center">
+  <img src="https://github.com/taek2222/Growing_Plants/assets/118153233/356505b9-5d30-447c-b8c0-f2066b3da368" alt="FRONT HARDWARE Skills" style="width:70%; height:auto;">
+  <img src="https://github.com/taek2222/Growing_Plants/assets/118153233/ace327be-2707-4497-9bbd-84e67038a8cd" alt="BACK Skills" style="width:70%; height:auto;">
+  <img src="https://github.com/taek2222/Growing_Plants/assets/118153233/c0920d7b-abb8-4dc3-a1d0-ba05b43a1a4d" alt="INFRA Skills" style="width:70%; height:auto;"
+</p>
