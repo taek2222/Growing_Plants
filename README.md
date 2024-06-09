@@ -38,11 +38,14 @@
 
 <br>
 
-## 📺 프로젝트 구성
-
-## 🔨 프로젝트 기능 
+## 🔨 프로젝트 화면 및 기능 설명 
 
 ## 🔗 시스템 구조도
+<p align="center">
+  <img src="https://github.com/taek2222/Growing_Plants/assets/118153233/13998143-18f0-49fb-8cc9-66955b48cbcd" alt="아키텍처">
+</p>
+
+<br>
 
 ## ⚒️ 기술 스택
 <p align="center">
