@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GWNU 틔운</title>
+    <link rel="stylesheet" href="plant.css">
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <h1>식물이름</h1>
+        </header>
+        <div class="plant-monitor">
+            <div class="plant left">
+                <a>
+                    <img id="plantImage" alt="식물 1" class="plant-image">
+                    <p>21일 차</p>
+                </a>
+            </div>
+            <div class="plants">
+                <div class="plant first">
+                    <div class="water-bottle">
+                        <img src="icon/water-bottle.png">
+                        <span class="water-sensor">40%</span>
+                    </div>
+                </div>
+                <div class="plant second">
+                    <div class="lightThreshold">
+                        <img src="icon/lightbulb.png">
+                        <span class="light-sensor">40%</span>
+                    </div>
+                </div>
+                <div class="plant third">
+                    <div class="soilThreshold">
+                        <img src="icon/soil.png">
+                        <span class="soil-sensor">40%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card water">
+            <div class="watering">
+                <img id="watering-can" src="icon/watering-can.png" alt="알림 아이콘">
+            </div>
+            <span class="status-label">&emsp;&emsp;오늘의 물밥</span>
+            <div class="water-count">
+                <span id="todayWaterCount">0</span>
+            </div>
+            <div class="buttons">
+                <button class="btn water-record-btn">물 공급 기록</button>
+                <button class="btn water-supply-btn">물주기</button>
+            </div>
+        </div>
+        <div class="card sun">
+            <div class="sunning">
+                <img src="icon/sun.png" alt="알림 아이콘">
+            </div>
+            <span class="status-label">&emsp;&emsp;오늘의 햇밥</span>
+            <div class="status-bar">
+                <div class="sun-light" id="sunLightFill" style="width: 30%;">30%</div>
+                <div class="led-light" id="ledLightFill" style="width: 20%;">20%</div>
+            </div>
+            <div class="status">
+                <div class="time-box">
+                    <span>햇빛: 0H 0M</span><br>
+                    <span>전등: 0H 0M</span>
+                </div>
+                <div class="led-status">
+                    <span>LED 상태:</span>
+                </div>
+            </div>
+        </div>
+        <div class="settings-icon">
+            <img src="icon/setting.png" alt="Settings" id="settingsBtn">
+        </div>
+        <div class="home-icon">
+            <img src="icon/home.png" alt="Home" id="homeBtn">
+        </div>
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form id="editPlantForm">
+                    <h2>식물 정보 수정</h2>
+                    <label for="plantName">식물 이름:</label>
+                    <input type="text" id="plantName" name="plantName">
+                    <label for="plantDate">날짜:</label>
+                    <input type="date" id="plantDate" name="plantDate">
+                    <label for="waterThreshold">물통 알림값:</label>
+                    <input type="number" id="waterThreshold" name="waterThreshold">
+                    <label for="lightThreshold">조도 임계값:</label>
+                    <input type="number" id="lightThreshold" name="lightThreshold">
+                    <label for="soilThreshold">수분 임계값:</label>
+                    <input type="number" id="soilThreshold" name="soilThreshold">
+                    <label label for="sunLightMax">최대 일조량(시간):<span id="sunlightValue">12 시간</span></label>
+                    <input type="range" id="sunLightMax" name="sunLightMax" min="0" max="24" step="1" value="12" oninput="updateSunlightValue(this.value)">
+
+                    <button type="submit">저장</button>
+                </form>
+            </div>
+        </div>
+        <div id="waterRecordModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+            </div>
+        </div>
+    
+        
+    </div>
+    <script src="plant.js"></script>
+</body>
+</html>

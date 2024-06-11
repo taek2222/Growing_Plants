@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GWNU 틔운</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+            <h1>GWNU 틔운</h1>
+            <div class="icons">
+                <div class="notification-icon">
+                    <img src="icon/noti.png" alt="알림 아이콘">
+                    <span id="notification-dot" class="notification-dot" style="display: none;"></span>
+                </div>
+                
+                <div class="weather-section">
+                    <div class="weather-icon">
+                        <img id="weatherIcon" src="icon/맑음.png" alt="Weather Icon">
+                    </div>
+                    <p class="weather-date"> <span id="date">--/-- 00:00 기준</span></p>
+                    <p class="rain-probability">강수확률: <span id="rain">--%</span></p>
+                </div>
+            </div>
+            <div class="location">
+                <h2>강원도 원주시</h2>
+                <h3>흥업면</h3>
+            </div>
+            <div class="temperature">
+                <p>최고 기온: <span id="max-temp">--°</span></p>
+                <p>최저 기온: <span id="min-temp">--°</span></p>
+            </div>
+        </header>
+        <div class="plant-monitor">
+            <div class="plant" id="plant1">
+                <a href="plant.html?plantId=1">
+                    <h2>식물1</h2>
+                    <img src="icon/1.jpg" alt="식물 1">
+                    <p id="day1">--일 차</p>
+                </a>
+            </div>
+            <div class="plant" id="plant2">
+                <a href="plant.html?plantId=2">
+                    <h2>식물2</h2>
+                    <img src="icon/2.jpg" alt="식물 2">
+                    <p id="day2">--일 차</p>
+                </a>
+            </div>
+            
+        </div>
+        <section class="atmosphere-data">
+            <div class="card current-temperature">
+                <span class="status-label">흥업면 현재 온도</span>
+                <div class="temperature-display">
+                    <img src="icon/대기온도.png" alt="온도계" class="thermometer">
+                    <span class="temperature-value">24°C</span>
+                </div>
+            </div>
+            <div class="card current-humidity">
+                <span class="status-label">흥업면 현재 습도</span>
+                <div class="humidity-display">
+                    <img src="icon/습도.png" alt="습도 아이콘" class="humidity-icon">
+                    <span class="humidity-value">--%</span>
+                </div>
+            </div>            
+        </section>    
+          <section class="atmosphere-data">
+            <div class="card atmosphere-temperature">
+              <span class="status-label">대기 온도</span>
+              <div class="temperature-display">
+                <img src="icon/대기온도.png" alt="온도계" class="thermometer">
+                <span class="temperature-value">24°C</span>
+              </div>
+            </div>     
+            <div class="card atmosphere-humidity">
+              <span class="status-label">대기 습도</span>
+              <div class="plant-humidity-display">
+                <img src="icon/습도.png" alt="습도 아이콘" class="humidity-icon">
+                <span class="plant-humidity-value">--%</span>
+          </section>
+          <section class="ai-recommendation">
+            <div class="ai-recommendation-content">
+                <div class="ai-details">
+                    <h2>AI 추천 받기</h2>
+                    <p>AI 기술을 활용하여 최적의 식물 관리 방법을 추천받으세요!</p>
+                </div>
+            </div>
+        </section>
+
+<div id="notificationModal" class="notification-modal">
+    <div class="notification-modal-content">
+        <span class="close-notification">&times;</span>
+        <h2>알림</h2>
+        <div id="notificationList" class="notification-list">
+            <!-- Notifications will be dynamically inserted here -->
+        </div>
+        <button id="deleteAllNotifications" class="delete-all-btn">전체 삭제</button>
+    </div>
+</div>
+
+<!-- Weather Forecast Modal -->
+<div id="weatherModal" class="modal weather-modal">
+    <div class="weather-modal-content">
+        <span class="close-weather">&times;</span>
+        <h2>흥업면 일기예보</h2>
+        <div id="weatherForecast" class="forecast-container">
+            <!-- Weather data will be dynamically inserted here -->
+        </div>
+    </div>
+</div>
+ <!-- AI 추천 모달 -->
+ <div id="aiRecommendationModal" class="modal ai-modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>AI 추천 받기</h2>
+        <form id="aiRecommendationForm">
+            <input type="text" id="plantNameInput" placeholder="식물 이름을 입력하세요">
+            <button type="submit">추천 받기</button>
+        </form>
+        <div id="aiRecommendationResult"></div>
+    </div>
+</div>
+       
+        
+    <script src="script.js"></script>
+</body>
+
+</html>
